@@ -14,11 +14,15 @@ import {
   FaImage,
 } from "react-icons/fa";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -35,7 +39,24 @@ export default function RegisterPage() {
     };
 
     console.log(user);
-    alert("Registration Successful!");
+    const { data, error } = await authClient.signUp.email({
+    name: user.name, // required
+    email: user.email, // required
+    password: user.password, // required
+    image: user.photo,
+    role: user.role,
+    status: user.status,
+    callbackURL: "/",
+});
+// console.log(data,'DATA');
+// console.log(error,'ERROR');
+if(!error){
+  toast.success('You Created Account Successfully')
+  router.push('/')
+}
+else{
+  toast.error(error.message)
+}
   };
 
   return (

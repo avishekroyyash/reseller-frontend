@@ -11,11 +11,13 @@ import {
   FaBriefcase,
 } from "react-icons/fa";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -26,7 +28,21 @@ export default function LoginPage() {
     };
 
     console.log(user);
-    alert("Login Successfully!");
+
+    const { data, error } = await authClient.signIn.email({
+    email: user.email, // required
+    password: user.password, // required
+    rememberMe: true,
+    callbackURL: "/",
+});
+console.log(data,'DATA');
+console.log(error,'ERROR');
+if(!error){
+toast.success("You logged in successfully!");
+}
+else{
+  toast.error(error.message)
+}
   };
 
   return (
