@@ -44,7 +44,7 @@ const statistics = [
 
 export default function MarketplaceStatistics() {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-orange-50">
+    <section className="py-20 bg-linear-to-b from-white to-orange-50">
       <div className="max-w-7xl mx-auto px-5">
 
         {/* Heading */}
@@ -77,7 +77,7 @@ export default function MarketplaceStatistics() {
               >
                 {/* Icon */}
                 <div
-                  className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition`}
+                  className={`mx-auto w-20 h-20 rounded-2xl bg-linear-to-r ${item.color} flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition`}
                 >
                   <Icon />
                 </div>
@@ -97,7 +97,7 @@ export default function MarketplaceStatistics() {
         </div>
 
         {/* Bottom Banner */}
-        <div className="mt-16 rounded-3xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-10 lg:px-14 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div className="mt-16 rounded-3xl bg-linear-to-r from-orange-500 to-orange-600 px-8 py-10 lg:px-14 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
 
           <div>
             <h3 className="text-3xl font-bold text-white">
