@@ -9,10 +9,19 @@ import {
   FaUserCircle,
   FaChevronDown,
 } from "react-icons/fa";
+import { signOut, useSession } from "@/lib/auth-client";
+import Image from "next/image";
 
 export default function Navber() {
-  // Change this to true to see logged-in UI
-  const isLoggedIn = false;
+  // take user 
+  const {data} = useSession();
+  const user = data?.user
+  //console.log(user)
+
+const isLoggedIn = user;  
+ {isLoggedIn ? true : false }
+
+  
 
   const [mobileMenu, setMobileMenu] = useState(false);
   const [dropdown, setDropdown] = useState(false);
@@ -51,7 +60,7 @@ export default function Navber() {
 
           {isLoggedIn && (
             <Link
-              href="/dashboard"
+              href={`/dashboard/${user?.role}`}
               className="hover:text-orange-500 transition"
             >
               Dashboard
@@ -83,27 +92,31 @@ export default function Navber() {
                 onClick={() => setDropdown(!dropdown)}
                 className="flex items-center gap-2 rounded-full border px-3 py-2 hover:border-orange-500"
               >
-                <FaUserCircle className="text-2xl text-orange-500" />
+                  <h1>Hi,{user?.name}</h1>
+                  {/* {user?.image ? <Image src={user?.image} alt={user?.name[0]} width={20} height={20}></Image> :   <FaUserCircle className="text-2xl text-orange-500" />  } */}
+                   <FaUserCircle className="text-2xl text-orange-500" /> 
+              
                 <FaChevronDown className="text-sm" />
+               
               </button>
 
               {dropdown && (
                 <div className="absolute right-0 mt-3 w-52 rounded-xl border bg-white shadow-lg">
                   <Link
-                    href="/profile"
+                    href={`/dashboard/${user.role}/profile`}
                     className="block px-5 py-3 hover:bg-orange-50"
                   >
                     My Profile
                   </Link>
 
                   <Link
-                    href="/dashboard"
+                    href={`/dashboard/${user.role}`}
                     className="block px-5 py-3 hover:bg-orange-50"
                   >
                     Dashboard
                   </Link>
 
-                  <button className="w-full px-5 py-3 text-left hover:bg-orange-50">
+                  <button onClick={()=>signOut()} className="w-full px-5 py-3 text-left hover:bg-orange-50">
                     Logout
                   </button>
                 </div>
@@ -173,7 +186,7 @@ export default function Navber() {
 
             {isLoggedIn && (
               <Link
-                href="/dashboard"
+                href={`/dashboard/${user.role}`}
                 onClick={() => setMobileMenu(false)}
               >
                 Dashboard
@@ -199,7 +212,7 @@ export default function Navber() {
             ) : (
               <>
                 <Link href="/profile">My Profile</Link>
-                <button className="text-left">Logout</button>
+                <button onClick={()=>signOut()} className="text-left">Logout</button>
               </>
             )}
           </div>

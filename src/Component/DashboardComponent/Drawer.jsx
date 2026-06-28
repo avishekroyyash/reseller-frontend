@@ -5,126 +5,175 @@ import { usePathname } from "next/navigation";
 
 import {
   House,
-  Magnifier,
   Bell,
   Envelope,
   Gear,
   Person,
+  ShoppingCart,
+  LayoutSideContentLeft,
+  Persons,
+  ChartColumn,
+  Plus,
 } from "@gravity-ui/icons";
 
-import {
-  FaShoppingCart,
-  FaHeart,
-  FaBoxOpen,
-  FaStore,
-} from "react-icons/fa";
+import { FaStore } from "react-icons/fa";
+import { useSession } from "@/lib/auth-client";
 
-const navItems = [
-  {
-    label: "Home",
-    href: "/",
-    icon: House,
-  },
-  {
-    label: "Browse Products",
-    href: "/products",
-    icon: Magnifier,
-  },
-  {
-    label: "My Listings",
-    href: "/dashboard/my-listings",
-    icon: FaBoxOpen,
-  },
-  {
-    label: "Wishlist",
-    href: "/dashboard/wishlist",
-    icon: FaHeart,
-  },
-  {
-    label: "Cart",
-    href: "/dashboard/cart",
-    icon: FaShoppingCart,
-  },
-  {
-    label: "Messages",
-    href: "/dashboard/messages",
-    icon: Envelope,
-  },
-  {
-    label: "Notifications",
-    href: "/dashboard/notifications",
-    icon: Bell,
-  },
-  {
-    label: "Profile",
-    href: "/dashboard/profile",
-    icon: Person,
-  },
-  {
-    label: "Settings",
-    href: "/dashboard/settings",
-    icon: Gear,
-  },
-];
+
+
+const dashboardLinks = {
+  buyer: [
+    {
+      label: "Dashboard",
+      href: "/dashboard/buyer",
+      icon: House,
+    },
+    {
+      label: "My Orders",
+      href: "/dashboard/buyer/orders",
+      icon: ShoppingCart,
+    },
+    {
+      label: "Wishlist",
+      href: "/dashboard/buyer/wishlist",
+      icon: LayoutSideContentLeft,
+    },
+    {
+      label: "Messages",
+      href: "/dashboard/buyer/messages",
+      icon: Envelope,
+    },
+    {
+      label: "Profile",
+      href: "/dashboard/buyer/profile",
+      icon: Person,
+    },
+  ],
+
+  seller: [
+    {
+      label: "Dashboard",
+      href: "/dashboard/seller",
+      icon: House,
+    },
+      {
+      label: "Add Product",
+      href: "/dashboard/seller/add-product",
+      icon:Plus,
+    },
+    {
+      label: "My Products",
+      href: "/dashboard/seller/products",
+      icon: LayoutSideContentLeft,
+    },
+    {
+      label: "Orders",
+      href: "/dashboard/seller/orders",
+      icon: ShoppingCart,
+    },
+  
+    {
+      label: "Profile",
+      href: "/dashboard/seller/profile",
+      icon: Person,
+    },
+  ],
+
+  admin: [
+    {
+      label: "Dashboard",
+      href: "/dashboard/admin",
+      icon: House,
+    },
+    {
+      label: "Manage Users",
+      href: "/dashboard/admin/users",
+      icon: Persons,
+    },
+    {
+      label: "Manage Products",
+      href: "/dashboard/admin/products",
+      icon: LayoutSideContentLeft,
+    },
+    {
+      label: "Reports",
+      href: "/dashboard/admin/reports",
+      icon: ChartColumn,
+    },
+    {
+      label: "Settings",
+      href: "/dashboard/admin/settings",
+      icon: Gear,
+    },
+  ],
+};
 
 export default function DashboardSidebar() {
+     // take user 
+      const {data} = useSession();
+      const user = data?.user
+      const role = user?.role || "buyer";
+      //console.log(user)
+
   const pathname = usePathname();
 
-  return (
-    <aside className=" w-82 min-h-screen bg-white border-r border-orange-100 shadow-sm">
+  const navItems = dashboardLinks[role] || dashboardLinks.buyer;
 
+  return (
+<aside className="w-30 md:w-56 lg:w-72 min-h-screen bg-white border-r border-orange-100 shadow-sm transition-all duration-300">
       {/* Logo */}
 
-      <div className="border-b border-orange-100 p-6">
+      <div className="border-b border-orange-100 p-4 lg:p-6">
+  <div className="flex items-center justify-center lg:justify-start gap-3">
 
-        <div className="flex items-center gap-3">
+    <div className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center text-white shrink-0">
+      <FaStore />
+    </div>
 
-          <div className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center text-white">
-            <FaStore />
-          </div>
+    <div className="hidden lg:block">
+      <h2 className="text-2xl font-bold text-orange-500">
+        ReBazar
+      </h2>
 
-          <div>
-            <h2 className="text-2xl font-bold text-orange-500">
-              ReBazar
-            </h2>
+      <p className="text-sm text-gray-500 capitalize">
+        {role} Dashboard
+      </p>
+    </div>
 
-            <p className="text-sm text-gray-500">
-              Buy • Sell • Reuse
-            </p>
-          </div>
-
-        </div>
-
-      </div>
+  </div>
+</div>
 
       {/* Navigation */}
 
-      <nav className="p-5 space-y-2">
+    <nav className="p-3 lg:p-5 space-y-2">
 
         {navItems.map((item) => {
           const Icon = item.icon;
-
           const active = pathname === item.href;
 
           return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`flex items-center gap-4 rounded-xl px-4 py-3 transition
-              ${
-                active
-                  ? "bg-orange-500 text-white"
-                  : "hover:bg-orange-50 text-gray-700"
-              }`}
-            >
-              <Icon
-                className={`text-xl ${
-                  active ? "text-white" : "text-orange-500"
-                }`}
-              />
+     <Link
+  key={item.label}
+  href={item.href}
+  className={`flex items-center justify-center lg:justify-start rounded-xl px-4 py-3 transition-all duration-300
+    ${
+      active
+        ? "bg-orange-500 text-white shadow-md"
+        : "text-gray-700 hover:bg-orange-50 hover:text-orange-600"
+    }`}
+>
+  {/* Show icon only on large screens */}
+  <Icon
+    className={`hidden lg:block text-xl shrink-0 mr-4 ${
+      active ? "text-white" : "text-orange-500"
+    }`}
+  />
 
-              {item.label}
-            </Link>
+  {/* Show label on all screens */}
+  <span className="font-medium text-sm lg:text-base text-center lg:text-left">
+    {item.label}
+  </span>
+</Link>
           );
         })}
       </nav>
