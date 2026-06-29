@@ -63,7 +63,7 @@ const dashboardLinks = {
     },
     {
       label: "My Products",
-      href: "/dashboard/seller/products",
+      href: "/dashboard/seller/my-products",
       icon: LayoutSideContentLeft,
     },
     {

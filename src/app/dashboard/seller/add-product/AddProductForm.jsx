@@ -5,6 +5,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { uploadImage } from "@/lib/uploadImage";
 import Image from "next/image";
 import { sellerJobPost } from "@/lib/action/SellerJobPost";
+import { toast } from "react-toastify";
 
 export default function AddProductForm({user}) {
     //console.log(user,'USER')
@@ -48,14 +49,8 @@ export default function AddProductForm({user}) {
 
       console.log(product);
       await sellerJobPost(product)
-      // Example API Call
-      // await fetch("/api/products", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(product),
-      // });
+      
+      toast.success('Add your product successfully')
 
       form.reset();
       setPreview(null);
