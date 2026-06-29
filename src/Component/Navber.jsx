@@ -45,7 +45,7 @@ const isLoggedIn = user;
           </Link>
 
           <Link
-            href="/products"
+            href="/all-products"
             className="hover:text-orange-500 transition"
           >
             Products
@@ -171,7 +171,7 @@ const isLoggedIn = user;
             </Link>
 
             <Link
-              href="/products"
+              href="/all-products"
               onClick={() => setMobileMenu(false)}
             >
               Products

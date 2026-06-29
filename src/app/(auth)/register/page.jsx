@@ -18,6 +18,8 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
+
+
 export default function RegisterPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +60,12 @@ else{
   toast.error(error.message)
 }
   };
+ // Google login 
+ const handleGoogleLogin = async () => {
+  const data = await  authClient.signIn.social({
+    provider: "google",
+  });
+}; 
 
   return (
   <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center p-4 md:p-6 lg:p-8">
@@ -277,6 +285,7 @@ else{
 
           {/* Google */}
           <button
+          onClick={handleGoogleLogin}
             type="button"
             className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 py-3 sm:py-3.5 text-md sm:text-md transition duration-300 hover:bg-orange-50"
           >

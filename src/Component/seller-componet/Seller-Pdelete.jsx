@@ -5,31 +5,24 @@ import { TrashBin } from "@gravity-ui/icons";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FiTrash2 } from "react-icons/fi";
+import { sellerJobDelete } from "@/lib/action/SellerJobDel";
 
 export default function DeleteProduct({ item }) {
   const router = useRouter();
 
   const handleDelete = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${item._id}`,
-        {
-          method: "DELETE",
-        }
-      );
 
-      const data = await res.json();
+   const data =  await sellerJobDelete(item._id)
+   //console.log(data,'DATA');
+   
 
-      if (res.ok) {
+      if (data.acknowledged) {
         toast.success("Product deleted successfully.");
         router.refresh();
       } else {
         toast.error(data.message || "Failed to delete product.");
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong.");
-    }
+    
   };
 
   return (
@@ -48,8 +41,9 @@ export default function DeleteProduct({ item }) {
             <AlertDialog.CloseTrigger />
 
             <AlertDialog.Header>
-              <div className="bg-orange-100 p-3 rounded-full">
-                <TrashBin className="text-orange-600" />
+                        <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white">
+
+                <TrashBin />
               </div>
 
               <AlertDialog.Heading>
