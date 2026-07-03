@@ -1,39 +1,38 @@
 import ProductCard from "@/Component/ProductsComponent/ProductCard";
+import ProductPagination from "@/Component/ProductsComponent/ProductPagination";
+
+
+
 import ProductSearchFilter from "@/Component/ProductsComponent/ProductSearch";
 import { GetAllProducts } from "@/lib/apiGetCall/GetAllProducts";
 
 export default async function AllProductPage({ searchParams }) {
-   const paramsObj = await searchParams;
+  const params = await searchParams;
 
-  const params = new URLSearchParams();
+  const query = new URLSearchParams();
 
-  if (paramsObj.search) {
-    params.append("search", paramsObj.search);
-  }
+  query.set("page", params.page || "1");
+  query.set("limit", "5");
 
-  if (paramsObj.category) {
-    params.append("category", paramsObj.category);
-  }
+  if (params.search) query.set("search", params.search);
+  if (params.category) query.set("category", params.category);
+  if (params.condition) query.set("condition", params.condition);
+  if (params.sort) query.set("sort", params.sort);
 
-  if (paramsObj.condition) {
-    params.append("condition", paramsObj.condition);
-  }
+  const data = await GetAllProducts(`?${query.toString()}`);
 
-  if (paramsObj.sort) {
-    params.append("sort", paramsObj.sort);
-  }
-
-  const products = await GetAllProducts(
-    params.toString() ? `?${params.toString()}` : ""
-  );
-
-
+  const {
+    products,
+    totalPages,
+    currentPage,
+    totalProducts,
+  } = data;
+  console.log(data,'DATA FOR MY-PAGE');
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-
+    <>
       <ProductSearchFilter />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
         {products.map((product) => (
           <ProductCard
             key={product._id}
@@ -42,6 +41,11 @@ export default async function AllProductPage({ searchParams }) {
         ))}
       </div>
 
-    </div>
+      <ProductPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalProducts={totalProducts}
+      />
+    </>
   );
 }

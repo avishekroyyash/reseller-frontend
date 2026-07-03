@@ -21,7 +21,7 @@ export default function ProductSearchFilter() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       const params = new URLSearchParams();
-
+        params.set("page", "1");
       if (search) params.set("search", search);
       if (category) params.set("category", category);
       if (condition) params.set("condition", condition);
@@ -33,14 +33,14 @@ export default function ProductSearchFilter() {
     return () => clearTimeout(timeout);
   }, [search, category, condition, sort, router]);
 
-  const handleReset = () => {
-    setSearch("");
-    setCategory("");
-    setCondition("");
-    setSort("");
+const handleReset = () => {
+  setSearch("");
+  setCategory("");
+  setCondition("");
+  setSort("");
 
-    router.push("/all-products");
-  };
+  router.push("/all-products?page=1");
+};
 
   return (
     <div className="mb-8 rounded-2xl border border-orange-100 bg-white p-5 shadow-md">
