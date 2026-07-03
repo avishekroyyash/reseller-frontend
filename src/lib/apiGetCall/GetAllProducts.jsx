@@ -1,5 +1,5 @@
-import { serverFetch } from "../mainFunction/server"
+import { serverFetch } from "../mainFunction/server";
 
-export const GetAllProducts = async()=>{
-    return serverFetch('/api/products')
-}
+export const GetAllProducts = async (query = "") => {
+  return serverFetch(`/api/products${query}`);
+};
