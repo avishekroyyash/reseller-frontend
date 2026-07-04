@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 export default function WishlistTable({ products }) {
   const handleDelete = async (id) => {
-    console.log("Delete Product:", id);
+    // console.log("Delete Product:", id);
     const del = await BuyerWishlistDel(id)
     toast.warning('Wishlist Delete Successfully')
     // Call your delete function here
@@ -63,7 +63,7 @@ export default function WishlistTable({ products }) {
                 <div className="flex items-center justify-center gap-3">
                   {/* Add Product */}
                   <Link
-                    href="/dashboard/seller/add-product"
+                    href="/all-products"
                     className="flex items-center gap-2 rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-600"
                   >
                     <FaPlus />

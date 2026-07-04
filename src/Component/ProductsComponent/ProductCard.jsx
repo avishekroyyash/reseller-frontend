@@ -167,7 +167,7 @@ const handleWishlist = async () => {
           </div>
 
           <Link
-            href={`/products/${product._id}`}
+            href={`/all-products/${product._id}`}
             className="flex items-center gap-2 rounded-xl bg-linear-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-orange-700"
           >
             Details
