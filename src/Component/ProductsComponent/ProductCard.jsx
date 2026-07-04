@@ -1,7 +1,11 @@
 "use client";
 
+import { BuyerWishlistPost } from "@/lib/action/BuyerWhislistPost";
+import { BuyerWishlistDel } from "@/lib/action/BuyerWishlistDel";
+import { useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import {
   FaHeart,
   FaBoxes,
@@ -10,8 +14,42 @@ import {
   FaUserCircle,
   FaRegClock,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ProductCard({ product }) {
+  const [isWishlist, setIsWishlist] = useState(true);
+  const {data} = useSession();
+  const user = data?.user
+  //console.log(data.user,'USER');
+
+const handleWishlist = async () => {
+ 
+   const previous = isWishlist;
+
+  setIsWishlist(!previous);
+
+  //console.log('BUTTON CLICKED');
+
+  // console.log(previous,'ISWHISLIST');
+  const data = {
+    ...product,
+    productId:product._id,
+    userId:user?.id,
+    userName:user?.name
+  }
+  // console.log(data,'DATA');
+ if(previous){
+  const post = await BuyerWishlistPost(data)
+  toast.success('Successfully Added To WishList')
+  // console.log(post,'this is data which i sent to backend')
+ }
+ else{
+  const del = await BuyerWishlistDel(data.productId)
+  toast.warn('Remove to Wishlist')
+  // console.log(del,'this is delete from server');
+ }
+  
+};
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-orange-300 hover:shadow-2xl">
 
@@ -20,11 +58,16 @@ export default function ProductCard({ product }) {
       <div className="relative h-64 overflow-hidden bg-linear-to-br from-orange-50 via-white to-orange-100">
 
         {/* Wishlist */}
-        <button
-          className="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:bg-orange-500 hover:text-white"
-        >
-          <FaHeart />
-        </button>
+       <button
+  onClick={handleWishlist}
+  className={`absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${
+    !isWishlist
+      ? "bg-orange-500 text-white"
+      : "bg-white text-gray-500 hover:bg-orange-500 hover:text-white"
+  }`}
+>
+  <FaHeart />
+</button>
 
         {/* Category */}
         <span className="absolute left-3 top-3 z-20 rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white shadow">
@@ -50,7 +93,7 @@ export default function ProductCard({ product }) {
         <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-orange-600 backdrop-blur">
           {product.stock} In Stock
         </span>
-
+       
       </div>
 
       {/* ================= BODY ================= */}

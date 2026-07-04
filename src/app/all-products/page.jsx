@@ -27,7 +27,7 @@ export default async function AllProductPage({ searchParams }) {
     currentPage,
     totalProducts,
   } = data;
-  console.log(data,'DATA FOR MY-PAGE');
+  // console.log(data,'DATA FOR MY-PAGE');
   return (
     <>
       <ProductSearchFilter />
