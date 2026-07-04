@@ -113,7 +113,7 @@ export default function ProductOrderCard({ product }) {
             </p>
 
             <p className="text-sm text-gray-500">
-              Estimated delivery in 2–5 days
+              Estimated delivery in 2-5 days
             </p>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function ProductOrderCard({ product }) {
 
           <button className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-orange-500 py-4 text-lg font-semibold text-orange-500 transition hover:bg-orange-500 hover:text-white">
             <FaShoppingCart />
-            Add to Cart
+            Add to Wishlist
           </button>
 
         </div>

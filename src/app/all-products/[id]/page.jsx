@@ -1,17 +1,21 @@
 import ProductDetailsCard from '@/Component/ProductsComponent/ProductDetailsCard';
 import ProductOrderCard from '@/Component/ProductsComponent/ProductOrderCard';
 import ProductReview from '@/Component/ProductsComponent/ProductReview';
+import { GetAllProductReview } from '@/lib/apiGetCall/GetAllProductReview';
+
 import { GetproductById } from '@/lib/apiGetCall/GetProductById';
 import { getUserData } from '@/lib/mainFunction/session';
 import React from 'react';
 
 const ProductDetails = async({params}) => {
     const user = await getUserData()
-    console.log(user,'USER');
+    // console.log(user,'USER');
     const {id} = await params
-     console.log(id,'PRODUCT ID ');
+    //  console.log(id,'PRODUCT ID ');
     const ProductInfo = await GetproductById(id)
     // console.log(ProductInfo);
+    const reviews = await GetAllProductReview(id)
+    console.log(reviews,'ALL-REVIEWS');
     return (
        <div className="container mx-auto px-4 py-10">
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -20,7 +24,7 @@ const ProductDetails = async({params}) => {
       <ProductDetailsCard product={ProductInfo} />
       <ProductReview
         productId={id}
-        reviews={[]}
+        reviews={reviews}
         user={user}
       />
     </div>

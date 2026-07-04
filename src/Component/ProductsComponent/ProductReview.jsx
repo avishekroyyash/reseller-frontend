@@ -1,5 +1,6 @@
 "use client";
 
+import { ReviewPost } from "@/lib/action/ReviewPost";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -8,21 +9,27 @@ import {
   FaUserCircle,
   FaPaperPlane,
 } from "react-icons/fa";
+import { TbChevronsDownLeft } from "react-icons/tb";
+import { toast } from "react-toastify";
 
 export default function ProductReview({
   productId,
   reviews = [],
   user,
 }) {
+  
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
 
   const handleSubmit = async (e) => {
+    // console.log(user,'USER');
+    // console.log(comment,'COMMETN');
+    // console.log(rating,'RAITING');
     e.preventDefault();
 
     if (!rating || !comment) {
-      return alert("Please give a rating and comment.");
+      return toast.error("Please give a rating and comment.");
     }
 
     const review = {
@@ -36,6 +43,9 @@ export default function ProductReview({
 
     console.log(review);
 
+    const post = await ReviewPost(review)
+    toast.success('Your opinion Successfull')
+    console.log(post,'REVIEW-POST');
     /*
       await ReviewPost(review);
 
@@ -74,49 +84,45 @@ export default function ProductReview({
 
         {/* Rating */}
 
-        <div className="mb-6 flex gap-2">
+ <form onSubmit={handleSubmit}>
+  {/* Rating */}
 
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setRating(star)}
-              onMouseEnter={() => setHover(star)}
-              onMouseLeave={() => setHover(0)}
-            >
-              {star <= (hover || rating) ? (
-                <FaStar
-                  size={30}
-                  className="text-yellow-400"
-                />
-              ) : (
-                <FaRegStar
-                  size={30}
-                  className="text-gray-300"
-                />
-              )}
-            </button>
-          ))}
+  <div className="mb-6 flex gap-2">
+    {[1, 2, 3, 4, 5].map((star) => (
+      <button
+        key={star}
+        type="button"
+        onClick={() => setRating(star)}
+        onMouseEnter={() => setHover(star)}
+        onMouseLeave={() => setHover(0)}
+      >
+        {star <= (hover || rating) ? (
+          <FaStar size={30} className="text-yellow-400" />
+        ) : (
+          <FaRegStar size={30} className="text-gray-300" />
+        )}
+      </button>
+    ))}
+  </div>
 
-        </div>
+  {/* Comment */}
 
-        {/* Comment */}
+  <textarea
+    rows={5}
+    placeholder="Share your experience..."
+    className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-orange-500"
+    value={comment}
+    onChange={(e) => setComment(e.target.value)}
+  />
 
-        <textarea
-          rows={5}
-          placeholder="Share your experience..."
-          className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-orange-500"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-
-        <button
-          onClick={handleSubmit}
-          className="mt-6 flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3 font-semibold text-white transition hover:bg-orange-600"
-        >
-          <FaPaperPlane />
-          Submit Review
-        </button>
+  <button
+    type="submit"
+    className="mt-6 flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3 font-semibold text-white transition hover:bg-orange-600"
+  >
+    <FaPaperPlane />
+    Submit Review
+  </button>
+</form>
 
       </div>
 
@@ -144,7 +150,7 @@ export default function ProductReview({
                 {review.userImage ? (
                   <Image
                     src={review.userImage}
-                    alt={review.userName}
+                    alt={review.userName[0]}
                     width={12}
                     height={12}
                     className="h-12 w-12 rounded-full object-cover"
