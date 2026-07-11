@@ -1,5 +1,8 @@
 "use client";
 
+import { BuyerWishlistPost } from "@/lib/action/BuyerWhislistPost";
+import { useSession } from "@/lib/auth-client";
+
 import { useState } from "react";
 import {
   FaShoppingCart,
@@ -10,9 +13,73 @@ import {
   FaShieldAlt,
   FaBoxOpen,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ProductOrderCard({ product }) {
   const [quantity, setQuantity] = useState(1);
+ const {data} = useSession()
+
+ const user= data?.user
+//  console.log(user,'USER IN PRODUCT ORDER CARD');
+
+// send stripe product,quantity,buyer 
+
+const handleBuyNow = async () => {
+
+    if (!user) {
+
+        toast.error("Please login first");
+
+        return;
+    }
+
+    const res = await fetch("/api/checkout_sessions", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json",
+
+        },
+
+        body: JSON.stringify({
+
+            product,
+
+            quantity,
+
+            buyer: {
+
+                userId: user?.id,
+
+                name: user?.name,
+
+                email: user?.email,
+
+            },
+
+        }),
+
+    });
+
+    const data = await res.json();
+     console.log(data,'HANDLE BUY NOW 01');
+    window.location.href = data.url;
+
+};
+
+const handlewishlist = async () => {
+    const data = {
+    ...product,
+    productId:product._id,
+    userId:user?.id,
+    userName:user?.name
+  }
+  // console.log(data,'DATA OF WISHLIST');
+await BuyerWishlistPost(data)
+toast.success('Your Product added into the Wishlist')
+}
 
   const increase = () => {
     if (quantity < product.stock) {
@@ -135,13 +202,21 @@ export default function ProductOrderCard({ product }) {
 
         {/* Buttons */}
         <div className="mt-8 space-y-4">
-
-          <button className="flex w-full items-center justify-center gap-3 rounded-xl bg-orange-500 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-orange-600">
+         
+        
+      <section>
+        <button onClick={handleBuyNow} className="flex w-full items-center justify-center gap-3 rounded-xl bg-orange-500 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-orange-600">
+           <FaBolt />
+            Buy Now
+        </button>
+      </section>
+   
+          {/* <button>
             <FaBolt />
             Buy Now
-          </button>
+          </button> */}
 
-          <button className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-orange-500 py-4 text-lg font-semibold text-orange-500 transition hover:bg-orange-500 hover:text-white">
+          <button onClick={handlewishlist} className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-orange-500 py-4 text-lg font-semibold text-orange-500 transition hover:bg-orange-500 hover:text-white">
             <FaShoppingCart />
             Add to Wishlist
           </button>

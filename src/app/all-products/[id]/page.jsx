@@ -15,7 +15,7 @@ const ProductDetails = async({params}) => {
     const ProductInfo = await GetproductById(id)
     // console.log(ProductInfo);
     const reviews = await GetAllProductReview(id)
-    console.log(reviews,'ALL-REVIEWS');
+    // console.log(reviews,'ALL-REVIEWS');
     return (
        <div className="container mx-auto px-4 py-10">
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
