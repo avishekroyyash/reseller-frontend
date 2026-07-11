@@ -45,7 +45,10 @@ export async function POST(req) {
             ],
 
            metadata: {
-    productId: product._id,
+    productId: product?._id,
+    image:product.image,
+    price:product.price,
+    title:product.title,
 
     buyerId: buyer?.userId,
     buyerName: buyer?.name,

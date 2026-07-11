@@ -39,8 +39,8 @@ const dashboardLinks = {
       icon: LayoutSideContentLeft,
     },
     {
-      label: "Messages",
-      href: "/dashboard/buyer/messages",
+      label: "PaymentHistory",
+      href: "/dashboard/buyer/payment-history",
       icon: Envelope,
     },
     {

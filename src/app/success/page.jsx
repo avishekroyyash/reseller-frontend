@@ -51,8 +51,13 @@ const order = {
         email:metadata.sellerEmail
 
     },
-
-    productId:metadata.productId,
+    productInfo:{
+      productTitle:metadata.title, 
+     productId:metadata.productId,
+     productImage:metadata.image,
+    productPrice:metadata.price,
+    },
+   
 
     paymentStatus:"paid",
 
@@ -68,7 +73,11 @@ const order = {
 const userOrder =await UserOrderPost(order)
 
 const payment = {
+      userId:metadata.buyerId,
 
+        name:metadata.buyerName,
+
+      userEmail:metadata.sellerEmail,
      orderId: session.payment_intent.payment_details.order_reference,
     //id order_reference
       transactionId:session.payment_intent.id,
