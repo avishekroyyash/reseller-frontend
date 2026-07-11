@@ -4,6 +4,7 @@ import { serverDelete } from "../mainFunction/server"
 
 
 export const sellerJobDelete =async(id)=>{
-return serverDelete(`/api/products/${id}`)
+const result = await serverDelete(`/api/products/${id}`)
 revalidatePath('/dashboard/seller/my-products')
+return result
 }

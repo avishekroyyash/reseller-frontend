@@ -1,5 +1,6 @@
  "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 
 export default function OrderDetailsModal({ order, isOpen, onClose }) {
@@ -17,7 +18,7 @@ export default function OrderDetailsModal({ order, isOpen, onClose }) {
 
   const seller = order.sellerInfo || order.seller || {};
   const buyer = order.buyerInfo || {};
-  const product = order.product || {};
+  const product = order.productInfo || {};
 
   const Item = ({label,value}) => (
     <div className="rounded-xl bg-orange-50 border border-orange-100 p-4">
@@ -40,14 +41,17 @@ export default function OrderDetailsModal({ order, isOpen, onClose }) {
 
           <div className="p-5 sm:p-8">
             <div className="grid gap-8 lg:grid-cols-2">
-              <img src={product.image} alt={product.title} className="h-64 sm:h-80 lg:h-[420px] w-full rounded-2xl border object-cover"/>
+              <Image src={order.productInfo.productImage}                 alt={order.productInfo.productTitle}
+              width={64}
+              height={64}
+              className="h-64 sm:h-80 lg:h-[420px] w-full rounded-2xl border object-cover"/>
               <div className="space-y-6">
                 <div>
                   <p className="text-sm text-gray-500">Product</p>
                   <h3 className="text-2xl font-bold">{product.title}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <Item label="Price" value={`$${product.price}`}/>
+                  <Item label="Price" value={`$${order.productInfo.productPrice}`}/>
                   <Item label="Payment" value={order.paymentStatus}/>
                   <Item label="Status" value={order.orderStatus}/>
                   <Item label="Ordered" value={new Date(order.createdAt).toLocaleString()}/>
@@ -74,7 +78,7 @@ export default function OrderDetailsModal({ order, isOpen, onClose }) {
             <h3 className="mt-10 mb-4 text-xl font-bold">Technical Information</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Item label="Order ID" value={order._id}/>
-              <Item label="Product ID" value={order.productId}/>
+              <Item label="Product ID" value={order.productInfo.productId}/>
               <Item label="Payment Intent" value={order.paymentIntentId}/>
               <Item label="Stripe Session" value={order.stripeSessionId}/>
             </div>

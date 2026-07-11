@@ -4,20 +4,30 @@ import { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import OrderStatusBadge from "./OrderStatusBadge";
 import CancelOrderModal from "./CancelOrderModal";
+import Image from "next/image";
+import { BuyerOrderCancel } from "@/lib/action/BuyerOrderCancel";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function OrderCard({ order }) {
+  // console.log(order,'ORDER-CARD');
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
 const [loading, setLoading] = useState(false);
 
   const {
-    product,
-    seller,
+    productInfo,
+    sellerInfo,
     paymentStatus,
     orderStatus,
     createdAt,
   } = order;
-
+//  console.log(productInfo.productTitle,'product-title');
+//  console.log(sellerInfo,'Seller');
+//  console.log(paymentStatus,'paymentStatuse');
+//  console.log(orderStatus,'orderStatus');
+//  console.log(createdAt,'CreatedAt');
   const handleCancel = () => {
   setCancelModalOpen(true);
 };
@@ -31,9 +41,11 @@ const [loading, setLoading] = useState(false);
 
             {/* Image */}
             <div className="w-full lg:w-44 flex justify-center">
-              <img
-                src={product.image}
-                alt={product.title}
+              <Image
+                src={productInfo.productImage}
+                alt={productInfo.productTitle}
+                width={40}
+                height={40}
                 className="w-40 h-40 rounded-xl object-cover border"
               />
             </div>
@@ -42,13 +54,13 @@ const [loading, setLoading] = useState(false);
             <div className="flex-1">
 
               <h2 className="text-2xl font-bold text-gray-800">
-                {product.title}
+                {productInfo.productTitle}
               </h2>
 
               <p className="text-gray-500 mt-2">
                 Seller:
                 <span className="ml-2 font-semibold text-gray-700">
-                  {seller.name}
+                  {sellerInfo.name}
                 </span>
               </p>
 
@@ -80,7 +92,7 @@ const [loading, setLoading] = useState(false);
                   </p>
 
                   <p className="text-orange-600 text-xl font-bold">
-                    ${product.price}
+                    ${productInfo.productPrice}
                   </p>
                 </div>
 
@@ -105,7 +117,7 @@ const [loading, setLoading] = useState(false);
                 View Details
               </button>
 
-              {orderStatus === "Pending" ? (
+              {orderStatus === "processing" ? (
                 <button
                   onClick={handleCancel}
                   className="w-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-3 rounded-lg font-semibold transition"
@@ -133,7 +145,7 @@ const [loading, setLoading] = useState(false);
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <CancelOrderModal
+<CancelOrderModal
   isOpen={cancelModalOpen}
   loading={loading}
   onClose={() => setCancelModalOpen(false)}
@@ -141,19 +153,38 @@ const [loading, setLoading] = useState(false);
     try {
       setLoading(true);
 
-      console.log("Reason:", reason);
+      // const response = await fetch(
+      //   `http://localhost:5000/orders/${order._id}/cancel`,
+      //   {
+      //     method: "PATCH",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       reason,
+      //     }),
+      //   }
+      // );
+       
+      //const data = await response.json();
+      const id = order?._id
+     const data = await BuyerOrderCancel(id, {
+  reason,
+});
 
-      // Call your backend here
-      // await axios.patch(`/api/orders/${order._id}/cancel`, {
-      //   reason,
-      // });
+      if (data.modifiedCount > 0) {
+        toast.error("Order cancelled successfully.");
 
-      alert("Order cancelled successfully.");
+        setCancelModalOpen(false);
 
-      setCancelModalOpen(false);
+        // Refresh the page
+        router.refresh();
+      } else {
+        toast.warning("Order could not be cancelled.");
+      }
     } catch (error) {
       console.error(error);
-      alert("Failed to cancel order.");
+      toast.error("Failed to cancel order.");
     } finally {
       setLoading(false);
     }

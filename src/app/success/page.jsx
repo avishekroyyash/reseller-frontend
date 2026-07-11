@@ -28,7 +28,7 @@ export default async function SuccessPage({ searchParams }) {
   }
 
   if (session.status === 'complete') {
-     console.log(metadata,'META-DATA');
+    //  console.log(metadata,'META-DATA');
 
 const order = {
 
@@ -69,7 +69,7 @@ const order = {
 
 
 };
- console.log(order,'ORDER-STRIPE')
+//  console.log(order,'ORDER-STRIPE')
 const userOrder =await UserOrderPost(order)
 
 const payment = {
@@ -89,7 +89,7 @@ const payment = {
 
 
 };
-console.log(payment,'PAYMENT-HISTORY');
+// console.log(payment,'PAYMENT-HISTORY');
 const userPayment = await UserPaymentPost(payment)
 
      return (

@@ -18,7 +18,7 @@ export default async function PaymentHistory() {
   const user=await getUserData()
   // console.log(user,'USER-info');
   const payments = await GetBuyerPayment(user?.id)
-   console.log(payments,'Payment-payment page');
+  //  console.log(payments,'Payment-payment page');
   return (
     <div className="min-h-screen bg-orange-50">
       <div className="max-w-6xl mx-auto p-6">
