@@ -19,7 +19,7 @@ export default function PaymentCard({ payment }) {
         <div className="text-right">
 
           <h1 className="text-2xl font-bold text-orange-600">
-            ৳{payment.amount}
+            ${payment.amount}
           </h1>
 
           <PaymentStatusBadge
@@ -39,7 +39,7 @@ export default function PaymentCard({ payment }) {
           </p>
 
           <h3 className="font-medium">
-            {payment.userName}
+            {payment.name}
           </h3>
 
         </div>
@@ -51,7 +51,7 @@ export default function PaymentCard({ payment }) {
           </p>
 
           <h3 className="font-medium">
-            {payment.userEmail}
+            {payment.email}
           </h3>
 
         </div>

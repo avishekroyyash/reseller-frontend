@@ -28,7 +28,7 @@ export default async function SuccessPage({ searchParams }) {
   }
 
   if (session.status === 'complete') {
-    // console.log(metadata,'META-DATA');
+     console.log(metadata,'META-DATA');
 
 const order = {
 
@@ -69,7 +69,7 @@ const order = {
 
 
 };
-// console.log(order,'ORDER-STRIPE')
+ console.log(order,'ORDER-STRIPE')
 const userOrder =await UserOrderPost(order)
 
 const payment = {
@@ -77,7 +77,8 @@ const payment = {
 
         name:metadata.buyerName,
 
-      userEmail:metadata.sellerEmail,
+       email:metadata.buyerEmail,
+
      orderId: session.payment_intent.payment_details.order_reference,
     //id order_reference
       transactionId:session.payment_intent.id,
@@ -88,7 +89,7 @@ const payment = {
 
 
 };
-// console.log(payment,'PAYMENT-HISTORY');
+console.log(payment,'PAYMENT-HISTORY');
 const userPayment = await UserPaymentPost(payment)
 
      return (
@@ -141,7 +142,7 @@ const userPayment = await UserPaymentPost(payment)
           </Link>
 
           <Link
-            href="/my-orders"
+            href="/dashboard/buyer/orders"
             className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-orange-600"
           >
             <FaBoxOpen />
