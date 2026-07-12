@@ -67,8 +67,8 @@ const dashboardLinks = {
       icon: LayoutSideContentLeft,
     },
     {
-      label: "Orders",
-      href: "/dashboard/seller/orders",
+      label: "Manage Orders",
+      href: "/dashboard/seller/manage-orders",
       icon: ShoppingCart,
     },
   

@@ -116,7 +116,10 @@ const isLoggedIn = user;
                     Dashboard
                   </Link>
 
-                  <button onClick={()=>signOut()} className="w-full px-5 py-3 text-left hover:bg-orange-50">
+                  <button onClick={async () => {
+    await signOut();
+    window.location.href = "/";
+  }} className="w-full px-5 py-3 text-left hover:bg-orange-50">
                     Logout
                   </button>
                 </div>
@@ -212,7 +215,10 @@ const isLoggedIn = user;
             ) : (
               <>
                 <Link href="/profile">My Profile</Link>
-                <button onClick={()=>signOut()} className="text-left">Logout</button>
+                <button onClick={async () => {
+    await signOut();
+    window.location.href = "/";
+  }} className="text-left">Logout</button>
               </>
             )}
           </div>
