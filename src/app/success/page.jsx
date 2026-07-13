@@ -61,7 +61,7 @@ const order = {
 
     paymentStatus:"paid",
 
-    orderStatus:"processing",
+    orderStatus:"pending",
 
     stripeSessionId:session.id,
 

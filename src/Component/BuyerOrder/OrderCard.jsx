@@ -117,7 +117,7 @@ const [loading, setLoading] = useState(false);
                 View Details
               </button>
 
-              {orderStatus === "processing" ? (
+              {orderStatus === "pending" ? (
                 <button
                   onClick={handleCancel}
                   className="w-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-3 rounded-lg font-semibold transition"
