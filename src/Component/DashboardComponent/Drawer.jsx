@@ -71,7 +71,11 @@ const dashboardLinks = {
       href: "/dashboard/seller/manage-orders",
       icon: ShoppingCart,
     },
-  
+   {
+      label: "Buyer Analytics",
+      href: "/dashboard/seller/analytics",
+      icon: ChartColumn,
+    },
     {
       label: "Profile",
       href: "/dashboard/seller/profile",
@@ -95,15 +99,20 @@ const dashboardLinks = {
       href: "/dashboard/admin/products",
       icon: LayoutSideContentLeft,
     },
-    {
-      label: "Reports",
-      href: "/dashboard/admin/reports",
-      icon: ChartColumn,
+        {
+      label: "Manage Orders",
+      href: "/dashboard/admin/orders",
+      icon: Gear,
     },
     {
-      label: "Settings",
-      href: "/dashboard/admin/settings",
-      icon: Gear,
+      label: "Admin Analysis",
+      href: "/dashboard/admin/analysis",
+      icon: ChartColumn,
+    },
+     {
+      label: "Profile",
+      href: "/dashboard/admin/profile",
+      icon: Person,
     },
   ],
 };
@@ -133,9 +142,11 @@ export default function DashboardSidebar() {
     <div className="hidden lg:block">
       <h2 className="text-2xl font-bold text-orange-500">
         ReBazar
+      
       </h2>
-
+       <p className="font-bold text-sm text-gray-500 capitalize"> {user?.name}</p>
       <p className="text-sm text-gray-500 capitalize">
+         
         {role} Dashboard
       </p>
     </div>
