@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import UserToolbar from "./UserToolbar";
 import UserTable from "./UserTable";
 import { GetAllUser } from "@/lib/apiGetCall/GetAllUser";
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 
 
-export default function UserManagement() {
+export default function UserManagement({ initialUsers }) {
 
   const router = useRouter()
 
@@ -20,8 +20,8 @@ export default function UserManagement() {
 const [updateModal, setUpdateModal] = useState(false);
 const [deleteModal, setDeleteModal] = useState(false);
 
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+const [users, setUsers] = useState(initialUsers || []);
+const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("all");
@@ -141,25 +141,8 @@ const handleBlockUser = async (user) => {
 };
 
 
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  async function loadUsers() {
-    setLoading(true);
-
-    const data = await GetAllUser();
-
-
-      setUsers(data);
-    
-
-    setLoading(false);
-  }
-
-  const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
+const filteredUsers = useMemo(() => {
+  return (users || []).filter((user) => {
       const keyword = search.toLowerCase();
 
       const searchMatch =

@@ -1,6 +1,10 @@
+
 import UserManagement from "@/Component/admin/user/UserManagement";
+import { GetAllUser } from "@/lib/apiGetCall/GetAllUser";
 
 
-export default function ManageUsersPage() {
-  return <UserManagement />;
+export default async function ManageUsersPage() {
+  const users = await GetAllUser();
+
+  return <UserManagement initialUsers={users} />;
 }
