@@ -19,7 +19,7 @@ export default function ProductPagination({
     setPage(currentPage);
   }, [currentPage]);
 
-  const itemsPerPage = 5; // Must match backend limit
+  const itemsPerPage = 12; // Must match backend limit
 
   const changePage = (newPage) => {
     if (newPage < 1 || newPage > totalPages) return;

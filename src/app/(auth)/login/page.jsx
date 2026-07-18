@@ -13,8 +13,10 @@ import {
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async(e) => {
@@ -35,8 +37,8 @@ export default function LoginPage() {
     rememberMe: true,
     callbackURL: "/",
 });
-console.log(data,'DATA');
-console.log(error,'ERROR');
+// console.log(data,'DATA');
+// console.log(error,'ERROR');
 if(!error){
 toast.success("You logged in successfully!");
 }

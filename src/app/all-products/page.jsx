@@ -12,7 +12,7 @@ export default async function AllProductPage({ searchParams }) {
   const query = new URLSearchParams();
 
   query.set("page", params.page || "1");
-  query.set("limit", "5");
+  query.set("limit", "12");
 
   if (params.search) query.set("search", params.search);
   if (params.category) query.set("category", params.category);

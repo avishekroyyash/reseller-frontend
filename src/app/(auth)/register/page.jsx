@@ -54,7 +54,8 @@ export default function RegisterPage() {
 // console.log(error,'ERROR');
 if(!error){
   toast.success('You Created Account Successfully')
-  router.push('/')
+  router.push('/login')
+  router.refresh()
 }
 else{
   toast.error(error.message)

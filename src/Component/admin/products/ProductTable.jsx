@@ -106,12 +106,12 @@ export default function ProductTable({
                   <td className="px-5 py-4">
                     <div className="flex justify-center gap-2">
                       {/* View */}
-                      <button
+                      {/* <button
                         onClick={() => onView?.(product)}
                         className="bg-blue-500 hover:bg-blue-600 p-2 rounded text-white"
                       >
                         <FiEye />
-                      </button>
+                      </button> */}
 
                       {/* Approve */}
                       <button
