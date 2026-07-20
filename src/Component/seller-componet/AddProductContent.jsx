@@ -16,7 +16,7 @@ export default function AddProductContent({ user }) {
       >
         {/* Header */}
 
-        <div className="border-b border-orange-100 bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-8 dark:border-gray-800">
+        <div className="border-b border-orange-100 bg-linear-to-r from-orange-500 to-orange-600 px-6 py-8 dark:border-gray-800">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
             <motion.div
               whileHover={{

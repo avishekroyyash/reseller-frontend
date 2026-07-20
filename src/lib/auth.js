@@ -16,10 +16,10 @@ export const auth = betterAuth({
    user: {
    additionalFields: {
    role: {
-     default: 'buyer',
+     defaultValue: 'buyer',
     },
     status:{
-      default:'active',
+      defaultValue:'active',
     }
    }
   },
