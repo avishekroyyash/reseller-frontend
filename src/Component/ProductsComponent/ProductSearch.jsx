@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   FaSearch,
   FaFilter,
@@ -15,13 +16,17 @@ export default function ProductSearchFilter() {
 
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
-  const [condition, setCondition] = useState(searchParams.get("condition") || "");
+  const [condition, setCondition] = useState(
+    searchParams.get("condition") || ""
+  );
   const [sort, setSort] = useState(searchParams.get("sort") || "");
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       const params = new URLSearchParams();
-        params.set("page", "1");
+
+      params.set("page", "1");
+
       if (search) params.set("search", search);
       if (category) params.set("category", category);
       if (condition) params.set("condition", condition);
@@ -33,30 +38,66 @@ export default function ProductSearchFilter() {
     return () => clearTimeout(timeout);
   }, [search, category, condition, sort, router]);
 
-const handleReset = () => {
-  setSearch("");
-  setCategory("");
-  setCondition("");
-  setSort("");
+  const handleReset = () => {
+    setSearch("");
+    setCategory("");
+    setCondition("");
+    setSort("");
 
-  router.push("/all-products?page=1");
-};
+    router.push("/all-products?page=1");
+  };
 
   return (
-    <div className="mb-8 rounded-2xl border border-orange-100 bg-white p-5 shadow-md">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-8 rounded-2xl border border-orange-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-lg transition-colors duration-300"
+    >
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="mb-5 flex items-center gap-2"
+      >
+        <motion.div
+          whileHover={{ rotate: 15, scale: 1.2 }}
+          transition={{ duration: 0.2 }}
+        >
+          <FaFilter className="text-xl text-orange-500" />
+        </motion.div>
 
-      <div className="mb-5 flex items-center gap-2">
-        <FaFilter className="text-xl text-orange-500" />
-        <h2 className="text-xl font-bold text-gray-800">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
           Search & Filter Products
         </h2>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
-
+      {/* Filters */}
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        variants={{
+          hidden: {},
+          show: {
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
+        }}
+        className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5"
+      >
         {/* Search */}
-
-        <div className="relative xl:col-span-2">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            show: { opacity: 1, y: 0 },
+          }}
+          className="relative xl:col-span-2"
+        >
           <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500" />
 
           <input
@@ -64,16 +105,19 @@ const handleReset = () => {
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+            className="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 py-3 pl-11 pr-4 outline-none transition-all duration-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-900"
           />
-        </div>
+        </motion.div>
 
         {/* Category */}
-
-        <select
+        <motion.select
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            show: { opacity: 1, y: 0 },
+          }}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+          className="rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 py-3 outline-none transition-all duration-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-900"
         >
           <option value="">All Categories</option>
           <option value="Books">Books</option>
@@ -82,14 +126,17 @@ const handleReset = () => {
           <option value="Home">Home</option>
           <option value="Sports">Sports</option>
           <option value="Vehicle">Vehicle</option>
-        </select>
+        </motion.select>
 
         {/* Condition */}
-
-        <select
+        <motion.select
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            show: { opacity: 1, y: 0 },
+          }}
           value={condition}
           onChange={(e) => setCondition(e.target.value)}
-          className="rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+          className="rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 py-3 outline-none transition-all duration-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-900"
         >
           <option value="">All Condition</option>
           <option value="New">New</option>
@@ -97,19 +144,23 @@ const handleReset = () => {
           <option value="Good">Good</option>
           <option value="Fair">Fair</option>
           <option value="Used">Used</option>
-        </select>
+        </motion.select>
 
         {/* Sort + Reset */}
-
-        <div className="flex gap-3">
-
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            show: { opacity: 1, y: 0 },
+          }}
+          className="flex gap-3"
+        >
           <div className="relative flex-1">
             <FaSortAmountDown className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500" />
 
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white py-3 pl-11 pr-4 outline-none transition-all duration-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-900"
             >
               <option value="">Sort By</option>
               <option value="latest">Latest</option>
@@ -119,16 +170,20 @@ const handleReset = () => {
             </select>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{
+              scale: 1.08,
+              rotate: 180,
+            }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ duration: 0.4 }}
             onClick={handleReset}
-            className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-white transition hover:bg-orange-600"
+            className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-white hover:bg-orange-600 shadow-lg"
           >
             <FaUndo />
-          </button>
-
-        </div>
-
-      </div>
-    </div>
+          </motion.button>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

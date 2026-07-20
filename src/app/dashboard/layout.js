@@ -1,15 +1,15 @@
-import DashboardDrawer from '@/Component/DashboardComponent/Drawer';
-import React from 'react';
+import DashboardDrawer from "@/Component/DashboardComponent/Drawer";
 
-const DashboardLayout = ({children}) => {
-    return (
-        <div className='flex min-h-screen bg-gray-50'>
-            <DashboardDrawer></DashboardDrawer>
-         <div className='flex-1 p-6'>
-            {children}
-         </div>
-        </div>
-    );
-};
+export default function DashboardLayout({ children }) {
+  return (
+    <div
+      className=" flex min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300 ">
+      <DashboardDrawer />
 
-export default DashboardLayout;
+      <main
+        className=" flex-1 p-6 bg-gray-50 min-w-0 dark:bg-gray-950 transition-colors duration-300 ">
+        {children}
+      </main>
+    </div>
+  );
+}

@@ -56,20 +56,20 @@ const stats = [
 
 export default function SustainabilityImpact() {
   return (
-    <section className="bg-linear-to-b from-orange-50 to-white py-20 px-5">
+    <section className="bg-gradient-to-b from-orange-50 to-white dark:from-gray-900 dark:to-black transition-colors duration-300 py-20 px-5">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
         <div className="text-center mb-16">
-          <span className="inline-block bg-orange-100 text-orange-600 px-5 py-2 rounded-full font-semibold text-sm">
+          <span className="inline-block bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-300 px-5 py-2 rounded-full font-semibold text-sm">
             Sustainability Impact
           </span>
 
-          <h2 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900">
+          <h2 className="mt-5 text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white">
             Every Purchase Makes a Difference
           </h2>
 
-          <p className="mt-5 max-w-3xl mx-auto text-gray-600 text-lg">
+          <p className="mt-5 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 text-lg">
             By choosing second-hand products on ReBazar, you're helping reduce
             waste, conserve natural resources, and create a more sustainable
             future.
@@ -78,26 +78,28 @@ export default function SustainabilityImpact() {
 
         {/* Impact Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
           {impacts.map((item) => {
             const Icon = item.icon;
 
             return (
               <div
                 key={item.id}
-                className="group bg-white rounded-3xl p-8 border border-orange-100 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                className="group bg-white dark:bg-gray-800 rounded-3xl p-8 border border-orange-100 dark:border-gray-700 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
               >
+                {/* Icon */}
                 <div
-                  className={`w-20 h-20 rounded-2xl bg-linear-to-r ${item.color} flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition`}
+                  className={`w-20 h-20 rounded-2xl bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition`}
                 >
                   <Icon />
                 </div>
 
-                <h3 className="mt-6 text-2xl font-bold text-gray-900">
+                {/* Title */}
+                <h3 className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
                   {item.title}
                 </h3>
 
-                <p className="mt-4 text-gray-600 leading-7">
+                {/* Description */}
+                <p className="mt-4 text-gray-600 dark:text-gray-300 leading-7">
                   {item.description}
                 </p>
               </div>
@@ -106,10 +108,8 @@ export default function SustainabilityImpact() {
         </div>
 
         {/* Statistics Banner */}
-        <div className="mt-20 bg-linear-to-r from-orange-500 to-orange-600 rounded-3xl p-10 lg:p-14">
-
+        <div className="mt-20 bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl p-10 lg:p-14 shadow-xl">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-
             {stats.map((item, index) => (
               <div key={index}>
                 <h3 className="text-4xl font-extrabold text-white">
@@ -121,30 +121,29 @@ export default function SustainabilityImpact() {
                 </p>
               </div>
             ))}
-
           </div>
-
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-20 rounded-3xl bg-white border border-orange-100 shadow-lg p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="mt-20 rounded-3xl bg-white dark:bg-gray-800 border border-orange-100 dark:border-gray-700 shadow-lg p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 transition-colors duration-300">
 
           <div>
-            <div className="flex items-center gap-3 text-orange-500 mb-4">
+            <div className="flex items-center gap-3 text-orange-500 dark:text-orange-400 mb-4">
               <FaSeedling className="text-3xl" />
-              <h3 className="text-3xl font-bold text-gray-900">
+
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
                 Shop Smarter. Save the Planet.
               </h3>
             </div>
 
-            <p className="text-gray-600 max-w-2xl leading-7">
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-7">
               Every reused product means fewer resources consumed and less waste
               sent to landfills. Join thousands of users building a greener
               future through ReBazar.
             </p>
           </div>
 
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-semibold flex items-center gap-3 transition shadow-lg">
+          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-semibold flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
             Start Buying Sustainably
             <FaArrowRight />
           </button>

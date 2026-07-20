@@ -1,224 +1,413 @@
 "use client";
 
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+
 import UserToolbar from "./UserToolbar";
 import UserTable from "./UserTable";
-import { GetAllUser } from "@/lib/apiGetCall/GetAllUser";
 import UpdateUserModal from "./UpdateUserModal";
 import DeleteUserModal from "./DeleteUserModal";
-import { AdminDeleteUserData, AdminUpdateUserData, AdminUserStatusUpdate } from "@/lib/action/AdminUpdateDelete";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
+import {
+  AdminDeleteUserData,
+  AdminUpdateUserData,
+  AdminUserStatusUpdate,
+} from "@/lib/action/AdminUpdateDelete";
 
 
 export default function UserManagement({ initialUsers }) {
 
-  const router = useRouter()
 
-  const [selectedUser, setSelectedUser] = useState(null);
-const [updateModal, setUpdateModal] = useState(false);
-const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedUser,setSelectedUser]=useState(null);
 
-const [users, setUsers] = useState(initialUsers || []);
-const [loading, setLoading] = useState(false);
+  const [updateModal,setUpdateModal]=useState(false);
+  const [deleteModal,setDeleteModal]=useState(false);
 
-  const [search, setSearch] = useState("");
-  const [role, setRole] = useState("all");
-  const [status, setStatus] = useState("all");
+  const [users,setUsers]=useState(initialUsers || []);
+
+  const [loading,setLoading]=useState(false);
 
 
-  const handleOpenUpdate = (user) => {
-  setSelectedUser(user);
-  setUpdateModal(true);
-};
-
-const handleCloseUpdate = () => {
-  setSelectedUser(null);
-  setUpdateModal(false);
-};
+  const [search,setSearch]=useState("");
+  const [role,setRole]=useState("all");
+  const [status,setStatus]=useState("all");
 
 
-//user update api
-const handleSave = async (updatedUser) => {
-  // console.log(updatedUser,'UPDATE-USER');
-  const update = {
-      name: updatedUser.name,
-      role: updatedUser.role,
-      status: updatedUser.status,
-    }
-    // console.log(update,'UPDATE');
-    const result = await AdminUpdateUserData(updatedUser._id,update)
-  // API call will be added in Part 5
-   if (result.modifiedCount > 0) {
-      toast.success("User updated successfully");
 
-      setUsers((prev) =>
-        prev.map((user) =>
-          user._id === updatedUser._id
-            ? {
-                ...user,
-                name: updatedUser.name,
-                role: updatedUser.role,
-                status: updatedUser.status,
-              }
-            : user
-        )
-      );
-
-      handleCloseUpdate();
-    }
-  
-};
+  const handleOpenUpdate=(user)=>{
+    setSelectedUser(user);
+    setUpdateModal(true);
+  };
 
 
-const handleOpenDelete = (user) => {
-  setSelectedUser(user);
-  setDeleteModal(true);
-};
+  const handleCloseUpdate=()=>{
+    setSelectedUser(null);
+    setUpdateModal(false);
+  };
 
-const handleCloseDelete = () => {
-  setSelectedUser(null);
-  setDeleteModal(false);
-};
 
-// user delete api
-const handleDelete = async (user) => {
-  // console.log("Delete User:", user);
 
-   try {
-    const result = await AdminDeleteUserData(user?._id);
+  // UPDATE USER
 
-    if (result.deletedCount > 0) {
-      toast.success("User deleted successfully");
+  const handleSave=async(updatedUser)=>{
 
-      setUsers((prev) =>
-        prev.filter((item) => item._id !== user?._id)
-      );
+    const update={
+      name:updatedUser.name,
+      role:updatedUser.role,
+      status:updatedUser.status,
+    };
 
-      handleCloseDelete();
-    }
-  } catch (error) {
-    console.log(error);
-    toast.error("Delete failed");
-  }
 
-  setDeleteModal(false);
-};
-
-//update user status 
-const handleBlockUser = async (user) => {
-  try {
-    const newStatus =
-      user.status === "active"
-        ? "blocked"
-        : "active";
-
-    const result = await AdminUserStatusUpdate(
-      user?._id,
-      newStatus
+    const result=await AdminUpdateUserData(
+      updatedUser._id,
+      update
     );
 
-    if (result.modifiedCount > 0) {
-      toast.success(
-        newStatus === "blocked"
-          ? "User blocked"
-          : "User unblocked"
-      );
 
-      setUsers((prev) =>
-        prev.map((item) =>
-          item._id === user._id
-            ? { ...item, status: newStatus }
-            : item
+    if(result.modifiedCount>0){
+
+      toast.success("User updated successfully");
+
+
+      setUsers(prev=>
+        prev.map(user=>
+          user._id===updatedUser._id
+          ?
+          {
+            ...user,
+            ...update
+          }
+          :
+          user
         )
       );
+
+
+      handleCloseUpdate();
+
     }
-  } catch (error) {
-    // console.log(error);
-    toast.error("Status update failed");
-  }
-};
+
+  };
+  // DELETE MODAL
+
+  const handleOpenDelete=(user)=>{
+    setSelectedUser(user);
+    setDeleteModal(true);
+  };
 
 
-const filteredUsers = useMemo(() => {
-  return (users || []).filter((user) => {
-      const keyword = search.toLowerCase();
+  const handleCloseDelete=()=>{
+    setSelectedUser(null);
+    setDeleteModal(false);
+  };
 
-      const searchMatch =
-        user.name?.toLowerCase().includes(keyword) ||
-        user.email?.toLowerCase().includes(keyword);
+  // DELETE USER
 
-      const roleMatch =
-        role === "all" ||
-        user.role?.toLowerCase() === role.toLowerCase();
+  const handleDelete=async(user)=>{
 
-      const statusMatch =
-        status === "all" ||
-        user.status?.toLowerCase() === status.toLowerCase();
+    try{
 
-      return searchMatch && roleMatch && statusMatch;
+      const result=
+      await AdminDeleteUserData(user?._id);
+
+
+      if(result.deletedCount>0){
+
+        toast.success("User deleted successfully");
+
+
+        setUsers(prev=>
+          prev.filter(
+            item=>item._id!==user?._id
+          )
+        );
+
+
+        handleCloseDelete();
+
+      }
+
+
+    }catch(error){
+
+      toast.error("Delete failed");
+
+    }
+
+  };
+
+
+  const handleBlockUser=async(user)=>{
+
+    try{
+
+      const newStatus=
+      user.status==="active"
+      ?
+      "blocked"
+      :
+      "active";
+
+      const result=
+      await AdminUserStatusUpdate(
+        user._id,
+        newStatus
+      );
+
+      if(result.modifiedCount>0){
+
+
+        toast.success(
+          newStatus==="blocked"
+          ?
+          "User blocked"
+          :
+          "User unblocked"
+        );
+
+
+        setUsers(prev=>
+          prev.map(item=>
+            item._id===user._id
+            ?
+            {
+              ...item,
+              status:newStatus
+            }
+            :
+            item
+          )
+        );
+
+
+      }
+
+
+
+    }catch(error){
+
+      toast.error("Status update failed");
+
+    }
+
+
+  };
+
+  const filteredUsers=useMemo(()=>{
+
+
+    return users.filter(user=>{
+
+
+      const keyword=
+      search.toLowerCase();
+
+
+
+      const searchMatch=
+      user.name?.toLowerCase()
+      .includes(keyword)
+      ||
+      user.email?.toLowerCase()
+      .includes(keyword);
+
+
+
+      const roleMatch=
+      role==="all"
+      ||
+      user.role?.toLowerCase()
+      ===
+      role.toLowerCase();
+
+
+
+      const statusMatch=
+      status==="all"
+      ||
+      user.status?.toLowerCase()
+      ===
+      status.toLowerCase();
+
+
+
+      return (
+        searchMatch &&
+        roleMatch &&
+        statusMatch
+      );
+
+
     });
-  }, [users, search, role, status]);
+
+
+  },[
+    users,
+    search,
+    role,
+    status
+  ]);
+
 
   return (
-    <div className="min-h-screen bg-orange-50 p-4 md:p-6">
 
-      {/* Header */}
+    <motion.div
 
-      <div className="mb-8">
+      initial={{
+        opacity:0,
+        y:30
+      }}
 
-        <h1 className="text-3xl font-bold text-gray-800">
+      animate={{
+        opacity:1,
+        y:0
+      }}
+
+      transition={{
+        duration:0.5
+      }}
+
+      className="min-h-screen bg-orange-50 dark:bg-gray-950 p-4 sm:p-6 transition-colors duration-300"
+
+    >
+
+      {/* HEADER */}
+
+      <motion.div
+
+        initial={{
+          opacity:0,
+          x:-30
+        }}
+
+        animate={{
+          opacity:1,
+          x:0
+        }}
+
+        className="mb-8"
+
+      >
+        <h1 className="text-3xl md:text-4xl font-bold text-orange-600 dark:text-orange-400">
           Manage Users
         </h1>
 
-        <p className="text-gray-500 mt-2">
+
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
           Admin can monitor and control platform users.
         </p>
 
-      </div>
+
+      </motion.div>
+
+      {/* FILTER */}
+
 
       <UserToolbar
+
         search={search}
         setSearch={setSearch}
+
         role={role}
         setRole={setRole}
+
         status={status}
         setStatus={setStatus}
+
       />
 
-      {/* Total Users */}
 
-      <div className="mb-4">
+      {/* COUNT */}
 
-        <span className="inline-flex items-center rounded-full bg-orange-100 px-4 py-2 text-orange-700 font-semibold">
+
+      <motion.div
+
+        initial={{
+          opacity:0,
+          scale:0.8
+        }}
+
+        animate={{
+          opacity:1,
+          scale:1
+        }}
+
+        className="my-5"
+
+      >
+
+        <span className="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900 px-4 py-2 text-orange-700 dark:text-orange-300 font-semibold">
+
           Total Users : {filteredUsers.length}
+
         </span>
 
-      </div>
 
-<UserTable
-  users={filteredUsers}
-  loading={loading}
-  onUpdate={handleOpenUpdate}
-   onDelete={handleOpenDelete}
-    onBlock={handleBlockUser}
-/>
-    
+      </motion.div>
 
-<UpdateUserModal
-  isOpen={updateModal}
-  onClose={handleCloseUpdate}
-  user={selectedUser}
-  onSave={handleSave}
-/>
 
-<DeleteUserModal
-  isOpen={deleteModal}
-  onClose={handleCloseDelete}
-  user={selectedUser}
-  onDelete={handleDelete}
-/>
-    </div>
+
+
+
+
+      {/* TABLE */}
+
+
+      <UserTable
+
+        users={filteredUsers}
+
+        loading={loading}
+
+        onUpdate={handleOpenUpdate}
+
+        onDelete={handleOpenDelete}
+
+        onBlock={handleBlockUser}
+
+      />
+
+
+
+
+
+
+
+
+      {/* MODALS */}
+
+
+      <UpdateUserModal
+
+        isOpen={updateModal}
+
+        onClose={handleCloseUpdate}
+
+        user={selectedUser}
+
+        onSave={handleSave}
+
+      />
+
+
+
+      <DeleteUserModal
+
+        isOpen={deleteModal}
+
+        onClose={handleCloseDelete}
+
+        user={selectedUser}
+
+        onDelete={handleDelete}
+
+      />
+
+
+
+    </motion.div>
+
   );
+
 }

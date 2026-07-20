@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import OrderDetailsModal from "./OrderDetailsModal";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
+
 import OrderStatusBadge from "./OrderStatusBadge";
 import CancelOrderModal from "./CancelOrderModal";
-import Image from "next/image";
 import { BuyerOrderCancel } from "@/lib/action/BuyerOrderCancel";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 export default function OrderCard({ order }) {
-  // console.log(order,'ORDER-CARD');
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     productInfo,
@@ -23,81 +23,144 @@ const [loading, setLoading] = useState(false);
     orderStatus,
     createdAt,
   } = order;
-//  console.log(productInfo.productTitle,'product-title');
-//  console.log(sellerInfo,'Seller');
-//  console.log(paymentStatus,'paymentStatuse');
-//  console.log(orderStatus,'orderStatus');
-//  console.log(createdAt,'CreatedAt');
-  const handleCancel = () => {
-  setCancelModalOpen(true);
-};
+
+  async function handleConfirm(reason) {
+    try {
+      setLoading(true);
+
+      const data = await BuyerOrderCancel(order._id, {
+        reason,
+      });
+
+      if (data.modifiedCount > 0) {
+        toast.success("Order cancelled successfully");
+        setCancelModalOpen(false);
+        router.refresh();
+      } else {
+        toast.warning("Order could not be cancelled.");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to cancel order.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
-      {/* Card */}
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-        <div className="p-6">
-          <div className="flex flex-col lg:flex-row gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.45,
+        }}
+        whileHover={{
+          y: -5,
+        }}
+        className="
+          overflow-hidden
+          rounded-3xl
+          border
+          border-gray-200
+          dark:border-gray-700
+          bg-white
+          dark:bg-gray-900
+          shadow-lg
+          transition-colors
+          duration-300
+        "
+      >
+        <div className="p-5 lg:p-7">
 
-            {/* Image */}
-            <div className="w-full lg:w-44 flex justify-center">
+          <div className="flex flex-col xl:flex-row gap-7">
+
+            {/* Product Image */}
+
+            <div className="flex justify-center">
               <Image
                 src={productInfo.productImage}
                 alt={productInfo.productTitle}
-                width={40}
-                height={40}
-                className="w-40 h-40 rounded-xl object-cover border"
+                width={180}
+                height={180}
+                className="
+                  h-40
+                  w-40
+                  sm:h-44
+                  sm:w-44
+                  rounded-2xl
+                  border
+                  border-gray-200
+                  dark:border-gray-700
+                  object-cover
+                "
               />
             </div>
 
             {/* Details */}
+
             <div className="flex-1">
 
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {productInfo.productTitle}
               </h2>
 
-              <p className="text-gray-500 mt-2">
-                Seller:
-                <span className="ml-2 font-semibold text-gray-700">
+              <p className="mt-2 text-gray-500 dark:text-gray-400">
+                Seller
+                <span className="ml-2 font-semibold text-gray-800 dark:text-gray-200">
                   {sellerInfo.name}
                 </span>
               </p>
 
-              <div className="grid sm:grid-cols-2 gap-4 mt-6">
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Order Date
                   </p>
 
-                  <p className="font-semibold">
-                    {createdAt}
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {new Date(createdAt).toLocaleDateString()}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Payment
                   </p>
 
-                  <span className="inline-block mt-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                  <span
+                    className="
+                      mt-2
+                      inline-flex
+                      rounded-full
+                      bg-green-100
+                      dark:bg-green-900/40
+                      px-3
+                      py-1
+                      text-sm
+                      font-semibold
+                      text-green-700
+                      dark:text-green-300
+                    "
+                  >
                     {paymentStatus}
                   </span>
                 </div>
 
                 <div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Total Price
                   </p>
 
-                  <p className="text-orange-600 text-xl font-bold">
+                  <p className="text-2xl font-bold text-orange-500">
                     ${productInfo.productPrice}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-gray-500 mb-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     Order Status
                   </p>
 
@@ -105,29 +168,65 @@ const [loading, setLoading] = useState(false);
                 </div>
 
               </div>
+
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col justify-center gap-3 lg:w-52">
 
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition"
+            <div className="flex flex-col gap-4 w-full xl:w-56">
+
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() =>
+                  router.push(`/dashboard/buyer/orders/${order._id}`)
+                }
+                className="
+                  rounded-xl
+                  bg-orange-500
+                  py-3
+                  font-semibold
+                  text-white
+                  shadow-md
+                  hover:bg-orange-600
+                  transition
+                "
               >
                 View Details
-              </button>
+              </motion.button>
 
               {orderStatus === "pending" ? (
-                <button
-                  onClick={handleCancel}
-                  className="w-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-3 rounded-lg font-semibold transition"
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setCancelModalOpen(true)}
+                  className="
+                    rounded-xl
+                    border-2
+                    border-red-500
+                    py-3
+                    font-semibold
+                    text-red-500
+                    hover:bg-red-500
+                    hover:text-white
+                    transition
+                  "
                 >
                   Cancel Order
-                </button>
+                </motion.button>
               ) : (
                 <button
                   disabled
-                  className="w-full bg-gray-100 text-gray-500 py-3 rounded-lg cursor-not-allowed"
+                  className="
+                    rounded-xl
+                    bg-gray-100
+                    dark:bg-gray-800
+                    py-3
+                    font-semibold
+                    text-gray-500
+                    dark:text-gray-400
+                    cursor-not-allowed
+                  "
                 >
                   Cannot Cancel
                 </button>
@@ -136,60 +235,20 @@ const [loading, setLoading] = useState(false);
             </div>
 
           </div>
+
         </div>
-      </div>
-     
-      {/* Modal */}
-      <OrderDetailsModal
-        order={order}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-<CancelOrderModal
-  isOpen={cancelModalOpen}
-  loading={loading}
-  onClose={() => setCancelModalOpen(false)}
-  onConfirm={async (reason) => {
-    try {
-      setLoading(true);
+      </motion.div>
 
-      // const response = await fetch(
-      //   `http://localhost:5000/orders/${order._id}/cancel`,
-      //   {
-      //     method: "PATCH",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       reason,
-      //     }),
-      //   }
-      // );
-       
-      //const data = await response.json();
-      const id = order?._id
-     const data = await BuyerOrderCancel(id, {
-  reason,
-});
-
-      if (data.modifiedCount > 0) {
-        toast.error("Order cancelled successfully.");
-
-        setCancelModalOpen(false);
-
-        // Refresh the page
-        router.refresh();
-      } else {
-        toast.warning("Order could not be cancelled.");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to cancel order.");
-    } finally {
-      setLoading(false);
-    }
-  }}
-/>
+      <AnimatePresence>
+        {cancelModalOpen && (
+          <CancelOrderModal
+            isOpen={cancelModalOpen}
+            loading={loading}
+            onClose={() => setCancelModalOpen(false)}
+            onConfirm={handleConfirm}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

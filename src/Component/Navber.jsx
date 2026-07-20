@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+
 import Link from "next/link";
 import {
   FaBars,
@@ -8,9 +8,13 @@ import {
   FaStore,
   FaUserCircle,
   FaChevronDown,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
 import { signOut, useSession } from "@/lib/auth-client";
-import Image from "next/image";
+import { useTheme } from "next-themes";
+
+import { useEffect, useState } from "react";
 
 export default function Navber() {
   // take user 
@@ -26,8 +30,17 @@ const isLoggedIn = user;
   const [mobileMenu, setMobileMenu] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
+  const { theme, setTheme } = useTheme();
+const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+if (!mounted) return null;
+
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md border-b">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md transition-colors">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
         {/* Logo */}
         <Link
@@ -40,20 +53,20 @@ const isLoggedIn = user;
 
         {/* Desktop Menu */}
         <div className="hidden items-center gap-8 font-medium lg:flex">
-          <Link href="/" className="hover:text-orange-500 transition">
+          <Link href="/" className="hover:text-orange-500 transition text-gray-700 dark:text-gray-200">
             Home
           </Link>
 
           <Link
             href="/all-products"
-            className="hover:text-orange-500 transition"
+           className="hover:text-orange-500 transition text-gray-700 dark:text-gray-200"
           >
             Products
           </Link>
 
           <Link
             href="/categories"
-            className="hover:text-orange-500 transition"
+            className="hover:text-orange-500 transition text-gray-700 dark:text-gray-200"
           >
             Categories
           </Link>
@@ -61,7 +74,7 @@ const isLoggedIn = user;
           {isLoggedIn && (
             <Link
               href={`/dashboard/${user?.role}`}
-              className="hover:text-orange-500 transition"
+              className="hover:text-orange-500 transition text-gray-700 dark:text-gray-200"
             >
               Dashboard
             </Link>
@@ -70,6 +83,20 @@ const isLoggedIn = user;
 
         {/* Right Side */}
         <div className="hidden items-center gap-4 lg:flex">
+
+       <button
+  onClick={() =>
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+  className="rounded-full border border-orange-300 p-2 hover:bg-orange-100 dark:hover:bg-gray-700 transition"
+>
+  {theme === "dark" ? (
+  <FaSun className="text-yellow-400 text-lg" />
+) : (
+  <FaMoon className="text-slate-700 dark:text-white text-lg" />
+)}
+</button>
+
           {!isLoggedIn ? (
             <>
               <Link
@@ -90,7 +117,7 @@ const isLoggedIn = user;
             <div className="relative">
               <button
                 onClick={() => setDropdown(!dropdown)}
-                className="flex items-center gap-2 rounded-full border px-3 py-2 hover:border-orange-500"
+               className="flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:border-orange-500 transition"
               >
                   <h1>Hi,{user?.name}</h1>
                   {/* {user?.image ? <Image src={user?.image} alt={user?.name[0]} width={20} height={20}></Image> :   <FaUserCircle className="text-2xl text-orange-500" />  } */}
@@ -101,17 +128,17 @@ const isLoggedIn = user;
               </button>
 
               {dropdown && (
-                <div className="absolute right-0 mt-3 w-52 rounded-xl border bg-white shadow-lg">
+                <div className="absolute right-0 mt-3 w-52 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                   <Link
-                    href={`/dashboard/${user.role}/profile`}
-                    className="block px-5 py-3 hover:bg-orange-50"
+                    href={`/dashboard/${user.role}/profile`} className="block px-5 py-3 text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-gray-700 transition"
                   >
+                   
                     My Profile
                   </Link>
 
                   <Link
                     href={`/dashboard/${user.role}`}
-                    className="block px-5 py-3 hover:bg-orange-50"
+                    className="block px-5 py-3 text-gray-700 dark:text-white hover:bg-orange-50 dark:hover:bg-gray-700 transition"
                   >
                     Dashboard
                   </Link>
@@ -119,7 +146,7 @@ const isLoggedIn = user;
                   <button onClick={async () => {
     await signOut();
     window.location.href = "/";
-  }} className="w-full px-5 py-3 text-left hover:bg-orange-50">
+  }} className="w-full px-5 py-3 text-left dark:hover:bg-gray-700 hover:bg-orange-50">
                     Logout
                   </button>
                 </div>
@@ -134,7 +161,21 @@ const isLoggedIn = user;
 
 
 
-       <div className="relative lg:hidden">
+       <div className="relative lg:hidden flex justify-center items-center gap-2">
+         <button
+  onClick={() =>
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+  className="flex items-center justify-between rounded-lg border px-4 py-2"
+>
+
+  {theme === "dark" ? (
+    <FaSun className="text-yellow-400" />
+  ) : (
+    <FaMoon />
+  )}
+</button>
+       
 {
     !isLoggedIn ? <>
       <button
@@ -146,35 +187,28 @@ const isLoggedIn = user;
     </> : <>
     <button
     onClick={() => setMobileMenu(!mobileMenu)}
-    className="flex items-center gap-2 rounded-full border border-orange-200 p-2 hover:bg-orange-50 transition"
+  className="flex items-center gap-2 rounded-full border border-orange-200 dark:border-gray-600 p-2 bg-white dark:bg-gray-800 hover:bg-orange-50 dark:hover:bg-gray-700 transition"
   >
       {mobileMenu ? <FaTimes />: <FaUserCircle className="text-3xl text-orange-500" />   }
   
   </button></>
 }
-      
-
-  
-
   
 </div>
-
-
-
-
-
-      </div>
+ </div>
 
       {/* Mobile Menu */}
       {mobileMenu && (
-        <div className="border-t bg-white lg:hidden">
+     <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 lg:hidden">
           <div className="flex flex-col gap-4 p-5">
-            <Link href="/" onClick={() => setMobileMenu(false)}>
+            <Link href="/"
+  className="text-gray-700 dark:text-gray-200 hover:text-orange-500" onClick={() => setMobileMenu(false)}>
               Home
             </Link>
 
             <Link
               href="/all-products"
+              className="text-gray-700 dark:text-gray-200 hover:text-orange-500"
               onClick={() => setMobileMenu(false)}
             >
               Products
@@ -182,6 +216,7 @@ const isLoggedIn = user;
 
             <Link
               href="/categories"
+              className="text-gray-700 dark:text-gray-200 hover:text-orange-500"
               onClick={() => setMobileMenu(false)}
             >
               Categories
@@ -190,6 +225,7 @@ const isLoggedIn = user;
             {isLoggedIn && (
               <Link
                 href={`/dashboard/${user.role}`}
+                className="text-gray-700 dark:text-gray-200 hover:text-orange-500"
                 onClick={() => setMobileMenu(false)}
               >
                 Dashboard

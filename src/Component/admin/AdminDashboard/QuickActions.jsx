@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import {
   FiUsers,
@@ -9,6 +10,7 @@ import {
   FiBarChart2,
   FiArrowRight,
 } from "react-icons/fi";
+
 
 const actions = [
   {
@@ -37,63 +39,115 @@ const actions = [
   },
 ];
 
+
 export default function QuickActions() {
+
   return (
-    <div className="bg-white border border-orange-100 rounded-2xl shadow-sm p-6">
+
+    <motion.div
+      initial={{opacity:0,y:30}}
+      animate={{opacity:1,y:0}}
+      transition={{duration:0.5}}
+      className="bg-white dark:bg-gray-900 border border-orange-100 dark:border-gray-800 rounded-2xl shadow-sm p-4 sm:p-6 transition-colors duration-300"
+    >
+
 
       {/* Header */}
 
       <div className="mb-6">
 
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
           Quick Actions
         </h2>
 
-        <p className="text-gray-500 mt-1">
+
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Quickly access the most important administration pages.
         </p>
 
+
       </div>
+
+
 
       {/* Cards */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-        {actions.map((item) => {
-          const Icon = item.icon;
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+
+        {actions.map((item,index)=>{
+
+
+          const Icon=item.icon;
+
 
           return (
-            <Link
+
+            <motion.div
               key={item.title}
-              href={item.href}
-              className="group border border-orange-100 rounded-2xl p-6 hover:bg-orange-500 transition-all duration-300 hover:shadow-xl"
+              initial={{opacity:0,y:20}}
+              animate={{opacity:1,y:0}}
+              transition={{delay:index*0.1}}
+              whileHover={{y:-8}}
             >
-              <div className="flex justify-between items-start">
 
-                <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center group-hover:bg-white transition">
+              <Link
+                href={item.href}
+                className="group block h-full border border-orange-100 dark:border-gray-700 rounded-2xl p-5 bg-white dark:bg-gray-900 hover:bg-orange-500 dark:hover:bg-orange-600 transition-all duration-300 hover:shadow-xl"
+              >
 
-                  <Icon className="text-2xl text-orange-500" />
+
+                <div className="flex justify-between items-start">
+
+
+                  <div className="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-900 flex items-center justify-center group-hover:bg-white transition">
+
+                    <Icon className="text-2xl text-orange-500 group-hover:text-orange-500"/>
+
+                  </div>
+
+
+
+                  <FiArrowRight className="text-orange-400 group-hover:text-white text-xl transition"/>
+
 
                 </div>
 
-                <FiArrowRight className="text-orange-400 group-hover:text-white text-xl transition" />
 
-              </div>
 
-              <h3 className="mt-6 text-xl font-bold text-gray-800 group-hover:text-white transition">
-                {item.title}
-              </h3>
+                <h3 className="mt-6 text-xl font-bold text-gray-800 dark:text-white group-hover:text-white transition">
 
-              <p className="mt-3 text-sm leading-6 text-gray-500 group-hover:text-orange-100 transition">
-                {item.description}
-              </p>
+                  {item.title}
 
-            </Link>
+                </h3>
+
+
+
+                <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400 group-hover:text-orange-100 transition">
+
+                  {item.description}
+
+                </p>
+
+
+
+              </Link>
+
+
+            </motion.div>
+
           );
+
+
         })}
+
 
       </div>
 
-    </div>
+
+    </motion.div>
+
   );
+
 }

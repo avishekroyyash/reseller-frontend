@@ -54,7 +54,7 @@ export default function RegisterPage() {
 // console.log(error,'ERROR');
 if(!error){
   toast.success('You Created Account Successfully')
-  router.push('/login')
+  router.push('/')
   router.refresh()
 }
 else{
@@ -69,8 +69,8 @@ else{
 }; 
 
   return (
-  <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center p-4 md:p-6 lg:p-8">
-    <div className="w-full max-w-7xl bg-white rounded-3xl shadow-2xl overflow-hidden lg:grid lg:grid-cols-2">
+  <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-950 dark:via-gray-900 dark:to-black transition-colors duration-500 flex items-center justify-center p-4 md:p-6 lg:p-8">
+    <div className="w-full max-w-7xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl transition-colors duration-500 overflow-hidden lg:grid lg:grid-cols-2">
 
       {/* ================= Left Side ================= */}
       <div className="hidden lg:block relative">
@@ -288,7 +288,7 @@ else{
           <button
           onClick={handleGoogleLogin}
             type="button"
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 py-3 sm:py-3.5 text-md sm:text-md transition duration-300 hover:bg-orange-50"
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 py-3 sm:py-3.5 text-md sm:text-md transition duration-300 dark:hover:bg-orange-400 hover:bg-orange-50"
           >
             <FaGoogle className="text-lg text-red-500" />
             Continue with Google

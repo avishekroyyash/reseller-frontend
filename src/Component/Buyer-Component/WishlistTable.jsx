@@ -5,105 +5,278 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaPlus, FaTrash, FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function WishlistTable({ products }) {
+  const router = useRouter();
+
   const handleDelete = async (id) => {
-    // console.log("Delete Product:", id);
-    const del = await BuyerWishlistDel(id)
-    toast.warning('Wishlist Delete Successfully')
-    // Call your delete function here
-    // await SellerProductDelete(id)
+    const del = await BuyerWishlistDel(id);
+
+    if (del?.deletedCount > 0 || del?.success) {
+      toast.success("Wishlist item deleted successfully");
+      router.refresh();
+    } else {
+      toast.error("Delete failed");
+    }
   };
 
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-md">
-      <table className="min-w-full">
-        {/* Table Header */}
-        <thead className="bg-orange-500 text-white">
-          <tr>
-            <th className="px-6 py-4 text-left font-semibold">Image</th>
-            <th className="px-6 py-4 text-left font-semibold">
-              Product Title
-            </th>
-            <th className="px-6 py-4 text-left font-semibold">Price</th>
-            <th className="px-6 py-4 text-center font-semibold">Actions</th>
-          </tr>
-        </thead>
+    <div
+      className="
+        rounded-2xl
+        border
+        border-gray-200
+        dark:border-gray-700
 
-        {/* Table Body */}
-        <tbody>
-          {products?.map((product) => (
-            <tr
-              key={product._id}
-              className="border-b transition hover:bg-orange-50"
-            >
-              {/* Image */}
-              <td className="px-6 py-4">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  width={70}
-                  height={70}
-                  className="rounded-lg object-cover"
-                />
-              </td>
+        bg-white
+        dark:bg-gray-900
 
-              {/* Title */}
-              <td className="px-6 py-4 font-medium text-gray-700">
-                {product.title}
-              </td>
+        shadow-lg
 
-              {/* Price */}
-              <td className="px-6 py-4 font-bold text-orange-600">
-                ${product.price}
-              </td>
+        transition-colors
+        duration-300
+      "
+    >
+      {/* Desktop Table */}
 
-              {/* Buttons */}
-              <td className="px-6 py-4">
-                <div className="flex items-center justify-center gap-3">
-                  {/* Add Product */}
-                  <Link
-                    href="/all-products"
-                    className="flex items-center gap-2 rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-600"
-                  >
-                    <FaPlus />
-                    Add
-                  </Link>
+      <div className="hidden lg:block overflow-x-auto">
 
-                  {/* Details */}
-                  <Link
-                    href={`/all-products/${product._id}`}
-                    className="flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600"
-                  >
-                    <FaEye />
-                    Details
-                  </Link>
+        <table className="min-w-full">
 
-                  {/* Delete */}
-                  <button
-                    onClick={() => handleDelete(product._id)}
-                    className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
-                  >
-                    <FaTrash />
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+          <thead className="bg-orange-500 text-white">
 
-          {products?.length === 0 && (
             <tr>
-              <td
-                colSpan={4}
-                className="py-10 text-center text-gray-500"
-              >
-                No Products Found
-              </td>
+
+              <th className="px-6 py-4 text-left">
+                Image
+              </th>
+
+              <th className="px-6 py-4 text-left">
+                Product
+              </th>
+
+              <th className="px-6 py-4 text-left">
+                Price
+              </th>
+
+              <th className="px-6 py-4 text-center">
+                Actions
+              </th>
+
             </tr>
-          )}
-        </tbody>
-      </table>
+
+          </thead>
+
+          <tbody>
+
+            {products?.map((product, index) => (
+
+              <motion.tr
+                key={product._id}
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: index * 0.08,
+                }}
+                className="
+                  border-b
+                  border-gray-200
+                  dark:border-gray-700
+
+                  hover:bg-orange-50
+                  dark:hover:bg-gray-800
+
+                  transition
+                "
+              >
+                <td className="px-6 py-4">
+
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    width={70}
+                    height={70}
+                    className="rounded-xl object-cover"
+                  />
+
+                </td>
+
+                <td className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
+                  {product.title}
+                </td>
+
+                <td className="px-6 py-4 font-bold text-orange-500">
+                  ৳{product.price}
+                </td>
+
+                <td className="px-6 py-4">
+
+                  <div className="flex justify-center gap-3">
+
+                    <Link
+                      href="/all-products"
+                      className="rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600 transition"
+                    >
+                      <FaPlus />
+                    </Link>
+
+                    <Link
+                      href={`/all-products/${product._id}`}
+                      className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 transition"
+                    >
+                      <FaEye />
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600 transition"
+                    >
+                      <FaTrash />
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </motion.tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      {/* Mobile Cards */}
+
+      <div className="grid gap-5 p-5 lg:hidden">
+
+        {products?.map((product, index) => (
+
+          <motion.div
+            key={product._id}
+            initial={{
+              opacity: 0,
+              y: 25,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              delay: index * 0.08,
+            }}
+            whileHover={{
+              y: -5,
+            }}
+            className="
+              rounded-2xl
+
+              border
+              border-gray-200
+              dark:border-gray-700
+
+              bg-white
+              dark:bg-gray-800
+
+              p-4
+
+              shadow-md
+            "
+          >
+
+            <div className="flex gap-4">
+
+              <Image
+                src={product.image}
+                alt={product.title}
+                width={90}
+                height={90}
+                className="rounded-xl object-cover"
+              />
+
+              <div className="flex-1">
+
+                <h3 className="font-bold text-lg text-gray-800 dark:text-white">
+                  {product.title}
+                </h3>
+
+                <p className="mt-2 text-xl font-bold text-orange-500">
+                  ৳{product.price}
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="mt-5 grid grid-cols-3 gap-3">
+
+              <Link
+                href="/all-products"
+                className="flex items-center justify-center gap-2 rounded-lg bg-green-500 py-3 text-white hover:bg-green-600 transition"
+              >
+                <FaPlus />
+              </Link>
+
+              <Link
+                href={`/all-products/${product._id}`}
+                className="flex items-center justify-center gap-2 rounded-lg bg-blue-500 py-3 text-white hover:bg-blue-600 transition"
+              >
+                <FaEye />
+              </Link>
+
+              <button
+                onClick={() => handleDelete(product._id)}
+                className="flex items-center justify-center gap-2 rounded-lg bg-red-500 py-3 text-white hover:bg-red-600 transition"
+              >
+                <FaTrash />
+              </button>
+
+            </div>
+
+          </motion.div>
+
+        ))}
+
+      </div>
+
+      {products?.length === 0 && (
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          className="py-16 text-center"
+        >
+
+          <div className="text-6xl">
+            ❤️
+          </div>
+
+          <h2 className="mt-5 text-2xl font-bold text-gray-800 dark:text-white">
+            Wishlist Empty
+          </h2>
+
+          <p className="mt-2 text-gray-500 dark:text-gray-400">
+            You haven't added any products yet.
+          </p>
+
+        </motion.div>
+
+      )}
+
     </div>
   );
 }

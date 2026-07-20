@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function UpdateUserModal({
   isOpen,
@@ -10,11 +10,13 @@ export default function UpdateUserModal({
   user,
   onSave,
 }) {
+
   const [formData, setFormData] = useState({
     name: "",
     role: "",
     status: "",
   });
+
 
   useEffect(() => {
     if (user) {
@@ -26,7 +28,6 @@ export default function UpdateUserModal({
     }
   }, [user]);
 
-  if (!isOpen) return null;
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -34,6 +35,7 @@ export default function UpdateUserModal({
       [e.target.name]: e.target.value,
     }));
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,120 +46,186 @@ export default function UpdateUserModal({
     });
   };
 
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+    <AnimatePresence>
 
-      <div className="bg-white rounded-2xl w-full max-w-lg shadow-xl">
+      {
+        isOpen && (
 
-        {/* Header */}
-
-        <div className="flex items-center justify-between border-b px-6 py-4">
-
-          <h2 className="text-xl font-bold text-gray-800">
-            Update User
-          </h2>
-
-          <button
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
-            className="text-gray-500 hover:text-red-500"
+            className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
           >
-            <ImCross size={22} />
-          </button>
 
-        </div>
 
-        {/* Form */}
-
-        <form
-          onSubmit={handleSubmit}
-          className="p-6 space-y-5"
-        >
-
-          {/* Name */}
-
-          <div>
-
-            <label className="block mb-2 text-sm font-medium">
-              Name
-            </label>
-
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border rounded-lg h-11 px-4 focus:border-orange-500 outline-none"
-              required
-            />
-
-          </div>
-
-          {/* Role */}
-
-          <div>
-
-            <label className="block mb-2 text-sm font-medium">
-              Role
-            </label>
-
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="w-full border rounded-lg h-11 px-4 focus:border-orange-500 outline-none"
+            <motion.div
+              initial={{ scale: 0.8, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 40 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-xl border border-orange-200 dark:border-gray-800 transition-colors duration-300"
             >
-              <option value="buyer">Buyer</option>
-              <option value="seller">Seller</option>
-              <option value="admin">Admin</option>
-            </select>
 
-          </div>
 
-          {/* Status */}
+              {/* Header */}
 
-          <div>
+              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 px-5 sm:px-6 py-4">
 
-            <label className="block mb-2 text-sm font-medium">
-              Status
-            </label>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+                  Update User
+                </h2>
 
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full border rounded-lg h-11 px-4 focus:border-orange-500 outline-none"
-            >
-              <option value="active">Active</option>
-              <option value="blocked">Blocked</option>
-            </select>
 
-          </div>
+                <button
+                  onClick={onClose}
+                  className="text-gray-500 dark:text-gray-400 hover:text-red-500 transition"
+                >
+                  <ImCross size={20}/>
+                </button>
 
-          {/* Footer */}
+              </div>
 
-          <div className="flex justify-end gap-3 pt-4">
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-5 py-2 rounded-lg border hover:bg-gray-100"
-            >
-              Cancel
-            </button>
 
-            <button
-              type="submit"
-              className="px-5 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600"
-            >
-              Save Changes
-            </button>
+              {/* Form */}
 
-          </div>
+              <form
+                onSubmit={handleSubmit}
+                className="p-5 sm:p-6 space-y-5"
+              >
 
-        </form>
 
-      </div>
+                {/* Name */}
 
-    </div>
+                <div>
+
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Name
+                  </label>
+
+
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 outline-none focus:border-orange-500 transition"
+                    required
+                  />
+
+                </div>
+
+
+
+                {/* Role */}
+
+                <div>
+
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Role
+                  </label>
+
+
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 outline-none focus:border-orange-500 transition"
+                  >
+
+                    <option value="buyer">
+                      Buyer
+                    </option>
+
+                    <option value="seller">
+                      Seller
+                    </option>
+
+                    <option value="admin">
+                      Admin
+                    </option>
+
+                  </select>
+
+                </div>
+
+
+
+
+                {/* Status */}
+
+                <div>
+
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Status
+                  </label>
+
+
+                  <select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                    className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 outline-none focus:border-orange-500 transition"
+                  >
+
+                    <option value="active">
+                      Active
+                    </option>
+
+                    <option value="blocked">
+                      Blocked
+                    </option>
+
+                  </select>
+
+                </div>
+
+
+
+
+                {/* Footer */}
+
+                <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+
+
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="w-full sm:w-auto px-5 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                  >
+                    Cancel
+                  </button>
+
+
+
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto px-5 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition"
+                  >
+                    Save Changes
+                  </button>
+
+
+                </div>
+
+
+              </form>
+
+
+            </motion.div>
+
+
+          </motion.div>
+
+        )
+      }
+
+
+    </AnimatePresence>
   );
 }

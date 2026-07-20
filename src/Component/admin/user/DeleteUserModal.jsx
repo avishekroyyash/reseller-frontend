@@ -2,7 +2,7 @@
 
 import { ImCross } from "react-icons/im";
 import { TbAlertTriangle } from "react-icons/tb";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 
 export default function DeleteUserModal({
@@ -11,83 +11,139 @@ export default function DeleteUserModal({
   user,
   onDelete,
 }) {
-  if (!isOpen || !user) return null;
+
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <AnimatePresence>
 
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-xl">
+      {
+        isOpen && user && (
 
-        {/* Header */}
-
-        <div className="flex items-center justify-between border-b p-5">
-
-          <h2 className="text-xl font-bold text-gray-800">
-            Delete User
-          </h2>
-
-          <button
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
-            className="text-gray-500 hover:text-red-500"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
           >
-            <ImCross size={22} />
-          </button>
 
-        </div>
 
-        {/* Body */}
+            <motion.div
+              initial={{ scale: 0.8, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 40 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e)=>e.stopPropagation()}
+              className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-orange-200 dark:border-gray-800 shadow-xl transition-colors duration-300"
+            >
 
-        <div className="p-6 text-center">
 
-          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
+              {/* Header */}
 
-            <TbAlertTriangle
-              size={42}
-              className="text-red-600"
-            />
+              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 p-5">
 
-          </div>
 
-          <h3 className="text-xl font-semibold text-gray-800">
-            Are you sure?
-          </h3>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+                  Delete User
+                </h2>
 
-          <p className="mt-3 text-gray-500">
-            You are about to permanently delete
-          </p>
 
-          <p className="mt-2 text-lg font-semibold text-orange-600">
-            {user.name}
-          </p>
+                <button
+                  onClick={onClose}
+                  className="text-gray-500 dark:text-gray-400 hover:text-red-500 transition"
+                >
+                  <ImCross size={20}/>
+                </button>
 
-          <p className="mt-3 text-sm text-gray-500">
-            This action cannot be undone.
-          </p>
 
-        </div>
+              </div>
 
-        {/* Footer */}
 
-        <div className="flex justify-end gap-3 border-t p-5">
 
-          <button
-            onClick={onClose}
-            className="rounded-lg border px-5 py-2 hover:bg-gray-100"
-          >
-            Cancel
-          </button>
+              {/* Body */}
 
-          <button
-            onClick={() => onDelete(user)}
-            className="rounded-lg bg-red-500 px-5 py-2 text-white hover:bg-red-600"
-          >
-            Delete User
-          </button>
+              <div className="p-5 sm:p-6 text-center">
 
-        </div>
 
-      </div>
+                <motion.div
+                  initial={{ rotate: -20, scale: 0 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-red-100 dark:bg-red-900"
+                >
 
-    </div>
+                  <TbAlertTriangle
+                    size={42}
+                    className="text-red-600 dark:text-red-400"
+                  />
+
+                </motion.div>
+
+
+
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                  Are you sure?
+                </h3>
+
+
+
+                <p className="mt-3 text-gray-500 dark:text-gray-400">
+                  You are about to permanently delete
+                </p>
+
+
+
+                <p className="mt-2 text-lg font-semibold text-orange-600">
+                  {user.name}
+                </p>
+
+
+
+                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+                  This action cannot be undone.
+                </p>
+
+
+              </div>
+
+
+
+
+              {/* Footer */}
+
+
+              <div className="flex flex-col sm:flex-row justify-end gap-3 border-t border-gray-200 dark:border-gray-800 p-5">
+
+
+                <button
+                  onClick={onClose}
+                  className="w-full sm:w-auto rounded-lg border border-gray-300 dark:border-gray-700 px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                >
+                  Cancel
+                </button>
+
+
+
+                <button
+                  onClick={()=>onDelete(user)}
+                  className="w-full sm:w-auto rounded-lg bg-red-500 px-5 py-2 text-white hover:bg-red-600 transition"
+                >
+                  Delete User
+                </button>
+
+
+              </div>
+
+
+            </motion.div>
+
+
+          </motion.div>
+
+        )
+      }
+
+
+    </AnimatePresence>
   );
 }

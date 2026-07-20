@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import {
   FiArrowRight,
@@ -26,111 +29,147 @@ const iconMap = {
   Logistics: FiTruck,
 };
 
-const CategoryCard = ({ category }) => {
-
-  const Icon =
-    iconMap[category.category] || FiBriefcase;
+export default function CategoryCard({ category }) {
+  const Icon = iconMap[category.category] || FiBriefcase;
 
   return (
     <Link
       href={`/all-products?category=${encodeURIComponent(
         category.category
       )}`}
+      className="block"
     >
-      <div
+      <motion.div
+        whileHover={{
+          y: -10,
+          scale: 1.02,
+        }}
+        whileTap={{
+          scale: 0.98,
+        }}
+        transition={{
+          duration: 0.25,
+        }}
         className="
-        group
-        bg-white
-        rounded-3xl
-        p-8
-        border
-        border-gray-100
-        shadow-sm
-        hover:shadow-xl
-        hover:border-orange-300
-        duration-300
-        hover:-translate-y-2
-        cursor-pointer
-      "
+          group
+          h-full
+          rounded-3xl
+          p-6
+          lg:p-8
+
+          border
+          transition-all
+          duration-300
+
+          bg-white
+          border-gray-200
+          shadow-md
+
+          hover:border-orange-400
+          hover:shadow-2xl
+
+          dark:bg-gray-900
+          dark:border-gray-800
+          dark:hover:border-orange-500
+          dark:shadow-black/30
+        "
       >
         {/* Icon */}
-
         <div
           className="
-          h-20
-          w-20
-          rounded-2xl
-          bg-orange-100
-          flex
-          items-center
-          justify-center
-          group-hover:bg-orange-500
-          duration-300
-        "
+            h-16
+            w-16
+            lg:h-20
+            lg:w-20
+
+            rounded-2xl
+
+            flex
+            items-center
+            justify-center
+
+            bg-orange-100
+            dark:bg-orange-500/20
+
+            group-hover:bg-orange-500
+            transition-all
+            duration-300
+          "
         >
           <Icon
             className="
-            text-4xl
-            text-orange-500
-            group-hover:text-white
-            duration-300
-          "
+              text-3xl
+              lg:text-4xl
+
+              text-orange-500
+              group-hover:text-white
+              transition-all
+              duration-300
+            "
           />
         </div>
 
-        {/* Name */}
-
+        {/* Title */}
         <h3
           className="
-          mt-8
-          text-2xl
-          font-bold
-          text-gray-800
-        "
+            mt-6
+            lg:mt-8
+
+            text-xl
+            lg:text-2xl
+
+            font-bold
+
+            text-gray-900
+            dark:text-white
+          "
         >
           {category.category}
         </h3>
 
-        {/* Job Count */}
+        {/* Jobs */}
+        <p
+          className="
+            mt-3
 
-        <p className="mt-3 text-gray-500">
+            text-sm
+            lg:text-base
 
+            text-gray-600
+            dark:text-gray-400
+          "
+        >
           {category.totalJobs} Jobs Available
-
         </p>
 
-        {/* Button */}
-
-        <div
-          className="
-          mt-8
-          flex
-          items-center
-          justify-between
-        "
-        >
+        {/* Footer */}
+        <div className="mt-8 flex items-center justify-between">
           <span
             className="
-            text-orange-500
-            font-semibold
-          "
+              font-semibold
+              text-orange-500
+              group-hover:text-orange-600
+              dark:group-hover:text-orange-400
+              transition
+            "
           >
             Explore Jobs
           </span>
 
-          <FiArrowRight
-            className="
-            text-xl
-            text-orange-500
-            group-hover:translate-x-2
-            duration-300
-          "
-          />
+          <motion.div
+            whileHover={{
+              x: 6,
+            }}
+          >
+            <FiArrowRight
+              className="
+                text-xl
+                text-orange-500
+              "
+            />
+          </motion.div>
         </div>
-
-      </div>
+      </motion.div>
     </Link>
   );
-};
-
-export default CategoryCard;
+}

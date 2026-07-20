@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FiPlus } from "react-icons/fi";
 import EditProductModal from "@/Component/seller-componet/Seller-Pedit";
 import DeleteProduct from "@/Component/seller-componet/Seller-Pdelete";
+import { motion } from "framer-motion";
 
 export default function ProductList({ products }) {
   const [search, setSearch] = useState("");
@@ -42,192 +43,220 @@ export default function ProductList({ products }) {
   }, [products, search, category, stock]);
 
   return (
-    <section className="p-4 md:p-8">
+   <motion.section
+  initial={{ opacity: 0, y: 25 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}
+  className="min-h-screen bg-orange-50 p-4 transition-colors duration-300 dark:bg-gray-950 md:p-8"
+>
+  {/* Header */}
 
-      {/* Header */}
+  <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        My Products
+      </h1>
 
-      <div className="flex flex-col md:flex-row justify-between gap-4">
+      <p className="mt-2 text-gray-500 dark:text-gray-400">
+        Manage all products
+      </p>
+    </div>
 
-        <div>
+    <Link
+      href="/dashboard/seller/add-product"
+      className="inline-flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600"
+    >
+      <FiPlus className="text-lg" />
+      Add Product
+    </Link>
+  </div>
 
-          <h1 className="text-3xl font-bold">
-            My Products
-          </h1>
+  {/* Filters */}
 
-          <p className="text-gray-500">
-            Manage all products
-          </p>
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.2 }}
+    className="mb-8 grid gap-4 lg:grid-cols-3"
+  >
+    <input
+      type="text"
+      placeholder="Search product..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none transition focus:ring-2 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder-gray-400"
+    />
 
-        </div>
+    <select
+      value={category}
+      onChange={(e) => setCategory(e.target.value)}
+      className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none transition focus:ring-2 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+    >
+      {categories.map((cat) => (
+        <option key={cat}>{cat}</option>
+      ))}
+    </select>
 
-        <Link
-          href="/dashboard/seller/add-product"
-          className="bg-orange-500 text-white px-5 py-3 rounded-lg"
+    <select
+      value={stock}
+      onChange={(e) => setStock(e.target.value)}
+      className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none transition focus:ring-2 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+    >
+      <option>All</option>
+      <option>In Stock</option>
+      <option>Out of Stock</option>
+    </select>
+  </motion.div>
+
+  {/* Mobile */}
+
+  <div className="space-y-5 lg:hidden">
+    {filteredProducts.length > 0 ? (
+      filteredProducts.map((product, index) => (
+        <motion.div
+          key={product._id}
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05 }}
+          className="rounded-2xl border border-orange-100 bg-white p-4 shadow-lg transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900"
         >
-          <FiPlus className="inline mr-2" />
-          Add Product
-        </Link>
+          <div className="flex gap-4">
+            <Image
+              src={product.image}
+              alt={product.title}
+              width={90}
+              height={90}
+              className="h-24 w-24 rounded-xl object-cover"
+            />
 
+            <div className="flex-1">
+              <h3 className="font-bold text-gray-900 dark:text-white">
+                {product.title}
+              </h3>
+
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {product.category}
+              </p>
+
+              <p className="mt-3 font-bold text-orange-600">
+                ${product.price}
+              </p>
+
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Stock : {product.stock}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 flex justify-end gap-3">
+            <EditProductModal item={product} />
+            <DeleteProduct item={product} />
+          </div>
+        </motion.div>
+      ))
+    ) : (
+      <div className="rounded-2xl bg-white p-10 text-center shadow dark:bg-gray-900">
+        <p className="text-gray-500 dark:text-gray-400">
+          No products found.
+        </p>
       </div>
+    )}
+  </div>
 
-      {/* Filters */}
+  {/* Desktop */}
 
-      <div className="mt-8 grid lg:grid-cols-3 gap-4">
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.3 }}
+    className="hidden overflow-x-auto rounded-2xl border border-orange-100 bg-white shadow-xl transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 lg:block"
+  >
+    <table className="min-w-full">
+      <thead className="bg-orange-50 dark:bg-gray-800">
+        <tr>
+          <th className="px-6 py-4 text-left text-gray-700 dark:text-gray-300">
+            Image
+          </th>
 
-        <input
-          type="text"
-          placeholder="Search product..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-          className="border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-orange-400"
-        />
+          <th className="px-6 py-4 text-left text-gray-700 dark:text-gray-300">
+            Product
+          </th>
 
-        <select
-          value={category}
-          onChange={(e) =>
-            setCategory(e.target.value)
-          }
-          className="border rounded-lg px-4 py-3"
-        >
-          {categories.map((cat) => (
-            <option key={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+          <th className="px-6 py-4 text-left text-gray-700 dark:text-gray-300">
+            Category
+          </th>
 
-        <select
-          value={stock}
-          onChange={(e) =>
-            setStock(e.target.value)
-          }
-          className="border rounded-lg px-4 py-3"
-        >
-          <option>All</option>
-          <option>In Stock</option>
-          <option>Out of Stock</option>
-        </select>
+          <th className="px-6 py-4 text-left text-gray-700 dark:text-gray-300">
+            Price
+          </th>
 
-      </div>
+          <th className="px-6 py-4 text-left text-gray-700 dark:text-gray-300">
+            Stock
+          </th>
 
-      {/* Table */}
+          <th className="px-6 py-4 text-center text-gray-700 dark:text-gray-300">
+            Actions
+          </th>
+        </tr>
+      </thead>
 
-      <div className="overflow-x-auto mt-8 bg-white rounded-xl shadow">
+      <tbody>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <motion.tr
+              key={product._id}
+              initial={{ opacity: 0, x: -15 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.04 }}
+              className="border-t border-orange-100 transition hover:bg-orange-50 dark:border-gray-800 dark:hover:bg-gray-800"
+            >
+              <td className="px-6 py-4">
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  width={70}
+                  height={70}
+                  className="rounded-xl object-cover"
+                />
+              </td>
 
-        <table className="w-full">
+              <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                {product.title}
+              </td>
 
-          <thead className="bg-orange-50">
+              <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                {product.category}
+              </td>
 
-            <tr>
+              <td className="px-6 py-4 font-bold text-orange-600">
+                ${product.price}
+              </td>
 
-              <th className="p-4 text-left">
-                Image
-              </th>
+              <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                {product.stock}
+              </td>
 
-              <th className="p-4 text-left">
-                Product
-              </th>
-
-              <th className="p-4 text-left">
-                Category
-              </th>
-
-              <th className="p-4 text-left">
-                Price
-              </th>
-
-              <th className="p-4 text-left">
-                Stock
-              </th>
-
-              <th className="p-4 text-center">
-                Actions
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {filteredProducts.map((product) => (
-
-              <tr
-                key={product._id}
-                className="border-t hover:bg-orange-50"
-              >
-
-                <td className="p-4">
-
-                  <Image
-                    src={product.image}
-                    alt={product.title}
-                    width={70}
-                    height={70}
-                    className="rounded-lg"
-                  />
-
-                </td>
-
-                <td className="p-4">
-                  {product.title}
-                </td>
-
-                <td className="p-4">
-                  {product.category}
-                </td>
-
-                <td className="p-4 text-orange-600 font-semibold">
-                  ${product.price}
-                </td>
-
-                <td className="p-4">
-                  {product.stock}
-                </td>
-
-                <td className="p-4">
-
-                  <div className="flex justify-center gap-3">
-
-                    <EditProductModal
-                      item={product}
-                    />
-
-                    <DeleteProduct
-                      item={product}
-                    />
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-            ))}
-
-            {filteredProducts.length === 0 && (
-
-              <tr>
-
-                <td
-                  colSpan={6}
-                  className="text-center py-10"
-                >
-                  No products found.
-                </td>
-
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
+              <td className="px-6 py-4">
+                <div className="flex justify-center gap-3">
+                  <EditProductModal item={product} />
+                  <DeleteProduct item={product} />
+                </div>
+              </td>
+            </motion.tr>
+          ))
+        ) : (
+          <tr>
+            <td
+              colSpan={6}
+              className="py-12 text-center text-gray-500 dark:text-gray-400"
+            >
+              No products found.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </motion.div>
+</motion.section>
   );
 }

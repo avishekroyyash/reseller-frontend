@@ -8,19 +8,19 @@ const Sixjob = async () => {
   const jobs = data.products || [];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 transition-colors duration-300">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
         <div>
-          <span className="inline-block bg-orange-100 text-orange-600 text-sm font-semibold px-4 py-1 rounded-full mb-3">
+          <span className="inline-block bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-300 text-sm font-semibold px-4 py-1 rounded-full mb-3">
             Featured Jobs
           </span>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             Latest Job Opportunities
           </h2>
 
-          <p className="mt-3 text-gray-600 max-w-2xl">
+          <p className="mt-3 text-gray-600 dark:text-gray-300 max-w-2xl">
             Explore the newest job opportunities from trusted employers.
             Find the perfect role that matches your skills and career goals.
           </p>
@@ -28,7 +28,7 @@ const Sixjob = async () => {
 
         <Link
           href="/all-products"
-          className="inline-flex items-center gap-2 text-orange-600 font-semibold hover:text-orange-700 transition"
+          className="inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 font-semibold hover:text-orange-700 dark:hover:text-orange-300 transition"
         >
           View More Jobs
           <FiArrowRight className="text-lg" />

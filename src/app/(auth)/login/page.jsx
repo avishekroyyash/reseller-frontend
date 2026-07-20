@@ -56,8 +56,8 @@ else{
 
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center p-4 lg:p-8">
-      <div className="w-full max-w-7xl bg-white rounded-3xl shadow-2xl overflow-hidden lg:grid lg:grid-cols-2">
+   <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-100 dark:from-gray-950 dark:via-gray-900 dark:to-black transition-colors duration-500 flex items-center justify-center p-4 lg:p-8">
+     <div className="w-full max-w-7xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden lg:grid lg:grid-cols-2 transition-colors duration-500">
 
         {/* ================= LEFT SIDE ================= */}
         <div className="hidden lg:block relative">
@@ -132,11 +132,11 @@ else{
 
             <div className="text-center mb-8">
 
-              <h1 className="text-3xl font-bold text-orange-500">
+             <h1 className="text-3xl font-bold text-orange-500 dark:text-orange-400">
                 Welcome Back
               </h1>
 
-              <p className="mt-2 text-gray-500">
+             <p className="mt-2 text-gray-500 dark:text-gray-400">
                 Login to your account
               </p>
 
@@ -151,7 +151,7 @@ else{
 
               <div>
 
-                <label className="block mb-2 font-medium">
+               <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                   Email
                 </label>
 
@@ -164,7 +164,7 @@ else{
                     name="email"
                     required
                     placeholder="abc@gmail.com"
-                    className="w-full rounded-xl border border-gray-300 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500"
+                   className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-500/30 focus:border-orange-500 transition-colors duration-300"
                   />
 
                 </div>
@@ -186,7 +186,7 @@ else{
                     name="password"
                     required
                     placeholder="Password"
-                    className="w-full rounded-xl border border-gray-300 py-3 px-4 pr-12 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500"
+                  className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 py-3 px-4 pr-12 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-500/30 focus:border-orange-500 transition-colors duration-300"
                   />
 
                   <button
@@ -194,7 +194,7 @@ else{
                     onClick={() =>
                       setShowPassword(!showPassword)
                     }
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   >
                     {showPassword ? (
                       <FaEyeSlash />
@@ -232,13 +232,12 @@ else{
 
               <div className="flex items-center gap-3">
 
-                <div className="flex-1 h-px bg-gray-300"></div>
-
-                <span className="text-sm text-gray-400">
+              <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
+<span className="text-sm text-gray-400 dark:text-gray-500">
                   OR
                 </span>
 
-                <div className="flex-1 h-px bg-gray-300"></div>
+        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
 
               </div>
 
@@ -247,7 +246,7 @@ else{
               <button
                 onClick={handleGoogleLogin}
                 type="button"
-                className="w-full border rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-orange-50 transition"
+               className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-orange-50 dark:hover:bg-gray-700 transition-colors duration-300"
               >
                 <FaGoogle className="text-red-500 text-lg" />
 
@@ -256,7 +255,7 @@ else{
 
               {/* Register */}
 
-              <p className="text-center text-gray-600">
+             <p className="text-center text-gray-600 dark:text-gray-400">
 
                 Don't have an account?
 

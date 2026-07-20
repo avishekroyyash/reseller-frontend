@@ -15,7 +15,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-orange-500 text-white">
+    <footer className="bg-orange-500 dark:bg-gray-950 text-white transition-colors duration-300">
 
       {/* Top Footer */}
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -33,7 +33,7 @@ export default function Footer() {
               ReBazaar
             </Link>
 
-            <p className="mt-5 text-orange-100 leading-8">
+            <p className="mt-5 text-orange-100 dark:text-gray-300 leading-8">
               ReBazaar is your trusted reseller marketplace where buyers
               discover quality products from verified sellers at affordable
               prices with secure shopping and fast delivery.
@@ -44,28 +44,28 @@ export default function Footer() {
 
               <a
                 href="#"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-orange-500 transition hover:bg-orange-100"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 transition hover:bg-orange-100 dark:hover:bg-gray-700"
               >
                 <FaFacebookF />
               </a>
 
               <a
                 href="#"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-orange-500 transition hover:bg-orange-100"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 transition hover:bg-orange-100 dark:hover:bg-gray-700"
               >
                 <FaInstagram />
               </a>
 
               <a
                 href="#"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-orange-500 transition hover:bg-orange-100"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 transition hover:bg-orange-100 dark:hover:bg-gray-700"
               >
                 <FaTwitter />
               </a>
 
               <a
                 href="#"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-orange-500 transition hover:bg-orange-100"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white dark:bg-gray-800 text-orange-500 dark:text-orange-400 transition hover:bg-orange-100 dark:hover:bg-gray-700"
               >
                 <FaLinkedinIn />
               </a>
@@ -81,28 +81,28 @@ export default function Footer() {
               Quick Links
             </h2>
 
-            <ul className="space-y-3 text-orange-100">
+            <ul className="space-y-3 text-orange-100 dark:text-gray-300">
 
               <li>
-                <Link href="/" className="hover:text-white">
+                <Link href="/" className="hover:text-white dark:hover:text-orange-400 transition">
                   Home
                 </Link>
               </li>
 
               <li>
-                <Link href="/products" className="hover:text-white">
+                <Link href="/all-products" className="hover:text-white dark:hover:text-orange-400 transition">
                   Products
                 </Link>
               </li>
 
               <li>
-                <Link href="/categories" className="hover:text-white">
+                <Link href="/categories" className="hover:text-white dark:hover:text-orange-400 transition">
                   Categories
                 </Link>
               </li>
 
               <li>
-                <Link href="/dashboard" className="hover:text-white">
+                <Link href="/dashboard" className="hover:text-white dark:hover:text-orange-400 transition">
                   Dashboard
                 </Link>
               </li>
@@ -118,16 +118,12 @@ export default function Footer() {
               Categories
             </h2>
 
-            <ul className="space-y-3 text-orange-100">
+            <ul className="space-y-3 text-orange-100 dark:text-gray-300">
 
               <li>Electronics</li>
-
               <li>Fashion</li>
-
               <li>Home & Living</li>
-
               <li>Accessories</li>
-
               <li>Sports</li>
 
             </ul>
@@ -141,7 +137,7 @@ export default function Footer() {
               Contact
             </h2>
 
-            <div className="space-y-4 text-orange-100">
+            <div className="space-y-4 text-orange-100 dark:text-gray-300">
 
               <div className="flex items-center gap-3">
                 <FaPhoneAlt />
@@ -167,7 +163,7 @@ export default function Footer() {
       </div>
 
       {/* Newsletter */}
-      <div className="border-y border-orange-400">
+      <div className="border-y border-orange-400 dark:border-gray-700">
 
         <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col lg:flex-row items-center justify-between gap-6">
 
@@ -177,21 +173,24 @@ export default function Footer() {
               Subscribe to our Newsletter
             </h2>
 
-            <p className="mt-2 text-orange-100">
+            <p className="mt-2 text-orange-100 dark:text-gray-300">
               Get exclusive offers, discounts, and the latest product updates.
             </p>
 
           </div>
 
-          <form className="flex w-full max-w-lg overflow-hidden rounded-xl bg-white">
+          <form className="flex w-full max-w-lg overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-lg">
 
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-5 py-3 text-gray-700 outline-none"
+              className="flex-1 px-5 py-3 bg-white dark:bg-gray-800 text-gray-700 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none"
             />
 
-            <button className="bg-orange-700 px-6 text-white hover:bg-orange-800 transition">
+            <button
+              type="submit"
+              className="bg-orange-700 hover:bg-orange-800 px-6 text-white transition"
+            >
               <FaPaperPlane />
             </button>
 
@@ -202,25 +201,34 @@ export default function Footer() {
       </div>
 
       {/* Bottom */}
-      <div className="bg-orange-600">
+      <div className="bg-orange-600 dark:bg-black transition-colors duration-300">
 
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
 
-          <p className="text-orange-100 text-center md:text-left">
+          <p className="text-orange-100 dark:text-gray-400 text-center md:text-left">
             © {new Date().getFullYear()} ReBazaar. All Rights Reserved.
           </p>
 
-          <div className="flex gap-6 text-orange-100">
+          <div className="flex gap-6 text-orange-100 dark:text-gray-400">
 
-            <Link href="/privacy" className="hover:text-white">
+            <Link
+              href="/privacy"
+              className="hover:text-white dark:hover:text-orange-400 transition"
+            >
               Privacy Policy
             </Link>
 
-            <Link href="/terms" className="hover:text-white">
+            <Link
+              href="/terms"
+              className="hover:text-white dark:hover:text-orange-400 transition"
+            >
               Terms & Conditions
             </Link>
 
-            <Link href="/faq" className="hover:text-white">
+            <Link
+              href="/faq"
+              className="hover:text-white dark:hover:text-orange-400 transition"
+            >
               FAQ
             </Link>
 

@@ -7,7 +7,7 @@ import SearchFilter from "./SearchFilter";
 import OrderTable from "./OrderTable";
 
 
-
+import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { SellerOrderUpdate} from "@/lib/action/SellerOrderUpdate";
@@ -125,64 +125,106 @@ const handleStatusUpdate = async (status) => {
   }, [orders, search, status]);
 
   return (
-    <section className="min-h-screen bg-orange-50 p-5">
+   <motion.section
+  initial={{ opacity: 0, y: 25 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}
+  className="min-h-screen bg-orange-50 px-4 py-6 transition-colors duration-300 dark:bg-gray-950 sm:px-6 lg:px-8"
+>
+  <div className="mx-auto max-w-7xl">
+    {/* Header */}
 
-      <div className="max-w-7xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, x: -30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.1 }}
+      className="mb-8 rounded-3xl border border-orange-100 bg-white p-6 shadow-lg transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/30"
+    >
+      <h1 className="text-3xl font-bold text-orange-600 sm:text-4xl">
+        Manage Orders
+      </h1>
 
-        <div className="mb-8">
+      <p className="mt-3 max-w-3xl text-gray-600 transition-colors duration-300 dark:text-gray-400">
+        Handle incoming customer orders, update delivery status,
+        reject orders when necessary, and view buyer information.
+      </p>
+    </motion.div>
 
-          <h1 className="text-4xl font-bold text-orange-600">
-            Manage Orders
-          </h1>
+    {/* Dashboard Stats */}
 
-          <p className="text-gray-500 mt-2">
-            Handle incoming customer orders, update
-            delivery status and view buyer details.
-          </p>
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      className="mb-8"
+    >
+      <DashboardStats orders={orders} />
+    </motion.div>
 
-        </div>
+    {/* Search */}
 
-        <DashboardStats orders={orders} />
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      className="mb-8"
+    >
+      <SearchFilter
+        search={search}
+        setSearch={setSearch}
+        status={status}
+        setStatus={setStatus}
+      />
+    </motion.div>
 
-        <SearchFilter
-          search={search}
-          setSearch={setSearch}
-          status={status}
-          setStatus={setStatus}
-        />
+    {/* Orders */}
 
-        {filteredOrders.length > 0 ? (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.4 }}
+    >
+      {filteredOrders.length > 0 ? (
         <OrderTable
-  orders={filteredOrders}
-  onBuyerInfo={openBuyerModal}
-  onStatusUpdate={openStatusModal}
-  onReject={openRejectModal}
-/>
-        ) : (
+          orders={filteredOrders}
+          onBuyerInfo={openBuyerModal}
+          onStatusUpdate={openStatusModal}
+          onReject={openRejectModal}
+        />
+      ) : (
+        <div className="rounded-2xl border border-orange-100 bg-white p-10 shadow-lg transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/30">
           <EmptyState />
-        )}
+        </div>
+      )}
+    </motion.div>
+  </div>
 
-      </div>
+  {/* Buyer Info Modal */}
 
-<BuyerInfoModal
-  isOpen={buyerModal}
-  onClose={() => setBuyerModal(false)}
-  buyer={selectedOrder?.buyerInfo}
-/>
+  <BuyerInfoModal
+    isOpen={buyerModal}
+    onClose={() => setBuyerModal(false)}
+    buyer={selectedOrder?.buyerInfo}
+  />
 
-<OrderStatusModal
-  isOpen={statusModal}
-  order={selectedOrder}
-  onClose={() => setStatusModal(false)}
-  onSave={handleStatusUpdate}
-  loading={loading}
-/>
-<RejectOrderModal
-  isOpen={rejectModal}
-  onClose={() => setRejectModal(false)}
-  onConfirm={handleReject}
-  loading={loading}
-/>
-    </section>
+  {/* Status Modal */}
+
+  <OrderStatusModal
+    isOpen={statusModal}
+    order={selectedOrder}
+    onClose={() => setStatusModal(false)}
+    onSave={handleStatusUpdate}
+    loading={loading}
+  />
+
+  {/* Reject Modal */}
+
+  <RejectOrderModal
+    isOpen={rejectModal}
+    onClose={() => setRejectModal(false)}
+    onConfirm={handleReject}
+    loading={loading}
+  />
+</motion.section>
   );
 }

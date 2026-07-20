@@ -3,43 +3,51 @@ import DashboardStats from "@/Component/BuyerDashboard/DashboardStats";
 import EmptyState from "@/Component/BuyerDashboard/EmptyState";
 import QuickActions from "@/Component/BuyerDashboard/QuickActions";
 import RecentPurchasesTable from "@/Component/BuyerDashboard/RecentPurchasesTable";
+
 import { GetAllDataForBuyerDashBoard } from "@/lib/apiGetCall/GetAllDataForBuyerDashBoard";
 import { GetBuyerAllWishlistById } from "@/lib/apiGetCall/GetBuyerAllWishlist";
 import { GetOrderById } from "@/lib/apiGetCall/GetBuyerOrder";
 import { getUserData } from "@/lib/mainFunction/session";
 
-
-
 export default async function BuyerDashboardPage() {
-  // Fetch these from your backend
   const user = await getUserData();
-   const wishList = await GetBuyerAllWishlistById(user?.id)
-//    console.log(wishList.length,' all wishList ');
-   const AllBuyerOrderData = await GetAllDataForBuyerDashBoard(user?.id)
-//    console.log(AllBuyerOrderData,'all-buyer-order-data');
-   const Torder = AllBuyerOrderData.totalOrders - AllBuyerOrderData.cancelledOrders
+
+  const wishList = await GetBuyerAllWishlistById(user?.id);
+
+  const AllBuyerOrderData = await GetAllDataForBuyerDashBoard(user?.id);
+
+  const totalOrders =
+    AllBuyerOrderData.totalOrders -
+    AllBuyerOrderData.cancelledOrders;
+
   const stats = {
-    totalOrders: Torder,
+    totalOrders,
     wishlistCount: wishList.length,
     recentPurchases: AllBuyerOrderData.processingOrders,
-    cancelledOrder:AllBuyerOrderData.cancelledOrders,
+    cancelledOrder: AllBuyerOrderData.cancelledOrders,
   };
+
   const purchases = await GetOrderById(user?.id);
 
   return (
-    <div className="min-h-screen bg-orange-50">
-      <div className="max-w-7xl mx-auto px-5 py-8">
+    <section className="min-h-screen bg-orange-50 dark:bg-gray-950 transition-colors duration-300">
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
 
+        {/* Header */}
         <DashboardHeader user={user} />
 
-        <DashboardStats
-          totalOrders={stats.totalOrders}
-          wishlistCount={stats.wishlistCount}
-          recentPurchases={stats.recentPurchases}
-          cancelledOrder={stats.cancelledOrder}
-        />
+        {/* Statistics */}
+        <div className="mt-6">
+          <DashboardStats
+            totalOrders={stats.totalOrders}
+            wishlistCount={stats.wishlistCount}
+            recentPurchases={stats.recentPurchases}
+            cancelledOrder={stats.cancelledOrder}
+          />
+        </div>
 
-        <div className="mt-10">
+        {/* Recent Purchases */}
+        <div className="mt-8 lg:mt-10 overflow-x-auto">
           {purchases.length > 0 ? (
             <RecentPurchasesTable purchases={purchases} />
           ) : (
@@ -50,11 +58,12 @@ export default async function BuyerDashboardPage() {
           )}
         </div>
 
-        <div className="mt-10">
+        {/* Quick Actions */}
+        <div className="mt-8 lg:mt-10">
           <QuickActions />
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

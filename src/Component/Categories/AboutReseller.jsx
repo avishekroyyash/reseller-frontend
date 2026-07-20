@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   FiShoppingBag,
   FiShield,
@@ -37,25 +40,31 @@ export default function AboutReseller() {
   ];
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
           {/* Left Content */}
 
-          <div>
-
-            <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-600">
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: .6 }}
+          >
+            <span className="inline-flex rounded-full bg-orange-100 dark:bg-orange-500/20 px-4 py-2 text-sm font-semibold text-orange-600 dark:text-orange-400">
               About Our Marketplace
             </span>
 
-            <h2 className="mt-6 text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              Buy & Sell with Confidence on Our
-              <span className="text-orange-500"> Reseller Marketplace</span>
+            <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-gray-900 dark:text-white">
+              Buy & Sell with Confidence on Our{" "}
+              <span className="text-orange-500">
+                Reseller Marketplace
+              </span>
             </h2>
 
-            <p className="mt-6 text-gray-600 leading-8 text-lg">
+            <p className="mt-6 text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-400">
               Our reseller marketplace connects buyers with trusted sellers,
               making it easy to discover quality products at competitive prices.
               Whether you're shopping for electronics, fashion, books, home
@@ -63,79 +72,119 @@ export default function AboutReseller() {
               verified sellers all in one place.
             </p>
 
-            <div className="mt-8 space-y-4">
+            <div className="mt-8 space-y-5">
 
-              <div className="flex items-start gap-3">
-                <FiCheckCircle className="mt-1 text-orange-500 text-xl" />
-                <p className="text-gray-600">
-                  Thousands of quality products across multiple categories.
-                </p>
-              </div>
+              {[
+                "Thousands of quality products across multiple categories.",
+                "Verified sellers offering trusted products and services.",
+                "Easy product discovery with category-based browsing.",
+                "Secure shopping experience with transparent pricing.",
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start gap-3"
+                >
+                  <FiCheckCircle className="mt-1 text-orange-500 text-xl shrink-0" />
 
-              <div className="flex items-start gap-3">
-                <FiCheckCircle className="mt-1 text-orange-500 text-xl" />
-                <p className="text-gray-600">
-                  Verified sellers offering trusted products and services.
-                </p>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <FiCheckCircle className="mt-1 text-orange-500 text-xl" />
-                <p className="text-gray-600">
-                  Easy product discovery with category-based browsing.
-                </p>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <FiCheckCircle className="mt-1 text-orange-500 text-xl" />
-                <p className="text-gray-600">
-                  Secure shopping experience with transparent pricing.
-                </p>
-              </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {item}
+                  </p>
+                </motion.div>
+              ))}
 
             </div>
 
-            <Link
-              href="/all-products"
-              className="inline-flex items-center gap-2 mt-10 rounded-xl bg-orange-500 px-7 py-4 font-semibold text-white transition hover:bg-orange-600 shadow-lg hover:shadow-xl"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: .95 }}
+              className="inline-block"
             >
-              Explore Products
-              <FiArrowRight />
-            </Link>
+              <Link
+                href="/all-products"
+                className="inline-flex items-center gap-3 mt-10 rounded-xl bg-orange-500 px-7 py-4 font-semibold text-white shadow-lg transition hover:bg-orange-600"
+              >
+                Explore Products
+                <FiArrowRight />
+              </Link>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
-          {/* Right Features */}
+          {/* Right Side */}
 
-          <div className="grid sm:grid-cols-2 gap-6">
-
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: .6 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+          >
             {features.map((feature, index) => {
               const Icon = feature.icon;
 
               return (
-                <div
+                <motion.div
                   key={index}
-                  className="group rounded-3xl border border-orange-100 bg-orange-50 p-8 transition-all duration-300 hover:-translate-y-2 hover:bg-white hover:shadow-xl"
+                  whileHover={{
+                    y: -10,
+                    scale: 1.03,
+                  }}
+                  transition={{ duration: .3 }}
+                  className="
+                    group
+                    rounded-3xl
+                    p-7
+
+                    border
+                    transition-all
+
+                    bg-white
+                    border-gray-200
+                    shadow-lg
+
+                    hover:border-orange-400
+                    hover:shadow-2xl
+
+                    dark:bg-gray-900
+                    dark:border-gray-800
+                  "
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md group-hover:bg-orange-500 transition">
+                  <div
+                    className="
+                      h-16
+                      w-16
+                      rounded-2xl
+                      flex
+                      items-center
+                      justify-center
+
+                      bg-orange-100
+                      dark:bg-orange-500/20
+
+                      group-hover:bg-orange-500
+                      transition
+                    "
+                  >
                     <Icon className="text-3xl text-orange-500 group-hover:text-white transition" />
                   </div>
 
-                  <h3 className="mt-6 text-xl font-bold text-gray-800">
+                  <h3 className="mt-6 text-xl font-bold text-gray-900 dark:text-white">
                     {feature.title}
                   </h3>
 
-                  <p className="mt-3 text-gray-600 leading-7">
+                  <p className="mt-3 leading-7 text-gray-600 dark:text-gray-400">
                     {feature.description}
                   </p>
-                </div>
+                </motion.div>
               );
             })}
-
-          </div>
+          </motion.div>
 
         </div>
-
       </div>
     </section>
   );
