@@ -46,7 +46,7 @@ const handleWishlist = async () => {
     userId:user?.id,
     userName:user?.name
   }
-   console.log(data,'DATA-WHislist');
+  //  console.log(data,'DATA-WHislist');
  if(previous){
   const post = await BuyerWishlistPost(data)
   toast.success('Successfully Added To WishList')
