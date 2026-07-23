@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 ReBazar - Frontend
 
-## Getting Started
+## 🌐 Project Overview
 
-First, run the development server:
+ReBazar is a modern second-hand marketplace platform where users can buy and sell pre-owned products securely. The platform connects buyers and sellers through a user-friendly marketplace while promoting sustainable shopping by reducing waste and encouraging product reuse.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This repository contains the frontend application built with **Next.js 16**, **React 19**, **Tailwind CSS v4**, and **HeroUI**.
+
+---
+
+## 🚀 Live Website
+
+Frontend:
+https://reseller-frontend-silk.vercel.app
+
+Backend API:
+https://reseller-backend-pi.vercel.app
+
+
+
+## ✨ Key Features
+
+### Authentication
+- Email & Password Login
+- Google Authentication
+- Better Auth Integration
+- Protected Private Routes
+- Persistent User Sessions
+
+### Marketplace
+- Browse Products
+- Product Details Page
+- Category-wise Products
+- Featured Products
+- Product Search
+- Responsive Product Cards
+
+### Buyer Features
+- Purchase Products
+- Stripe Secure Checkout
+- Order History
+- Wishlist
+- Payment History
+- Profile Management
+
+### Seller Features
+- Seller Dashboard
+- Add New Products
+- Edit Products
+- Delete Products
+- Manage Orders
+- Sales Analytics
+- Revenue Statistics
+
+### Admin Features
+- Dashboard Overview
+- User Management
+- Product Moderation
+- Order Monitoring
+- Platform Analytics
+
+### Home Page
+- Hero Banner
+- Marketplace Statistics
+- Featured Products
+- Popular Categories
+- Success Stories
+- Sustainability Section
+- Trusted Sellers Showcase
+
+### UI Features
+- Fully Responsive Design
+- Modern Marketplace UI
+- Skeleton Loading
+- Custom 404 Page
+- Dark / Light Theme
+- Toast Notifications
+- Beautiful Dashboard
+
+### Payment
+- Stripe Checkout
+- Secure Payment Flow
+- Payment Success Page
+- Transaction History
+
+---
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- Tailwind CSS v4
+- HeroUI
+- Better Auth
+- MongoDB
+- Stripe
+- Framer Motion
+- Recharts
+- React Icons
+- React Toastify
+
+---
+
+## NPM Packages Used
+
+```json
+@better-auth/mongo-adapter
+@heroui/react
+@heroui/styles
+@stripe/stripe-js
+better-auth
+framer-motion
+mongodb
+next
+next-themes
+react
+react-dom
+react-icons
+react-toastify
+recharts
+stripe
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📁 Main Pages
+- Home
+- Products
+- Product Details
+- Categories
+- About
+- Contact
+- Login
+- Register
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Buyer Dashboard
+- Dashboard
+- My Orders
+- Wishlist
+- Payment History
+- Profile
 
-## Learn More
+### Seller Dashboard
+- Dashboard
+- Add Product
+- My Products
+- Manage Orders
+- Sales Analytics
 
-To learn more about Next.js, take a look at the following resources:
+### Admin Dashboard
+- Dashboard
+- Manage Users
+- Manage Products
+- Manage Orders
+- Platform Analytics
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Responsive Design
+- Mobile
+- Tablet
+- Desktop
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👨‍💻 Author
+Avishek Roy Yash

@@ -4,3 +4,9 @@ export const authClient = createAuthClient({
     baseURL: "https://reseller-frontend-silk.vercel.app"
 })
 export const { signIn, signUp, useSession,signOut } = createAuthClient()
+
+// this is for deploy 
+// baseURL: "https://reseller-frontend-silk.vercel.app"
+
+// this is local for signin
+// baseURL: "http://localhost:3000"

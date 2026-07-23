@@ -46,7 +46,7 @@ const handleWishlist = async () => {
     userId:user?.id,
     userName:user?.name
   }
-  // console.log(data,'DATA');
+   console.log(data,'DATA-WHislist');
  if(previous){
   const post = await BuyerWishlistPost(data)
   toast.success('Successfully Added To WishList')
@@ -82,7 +82,7 @@ const handleWishlist = async () => {
 
       {/* ================= IMAGE ================= */}
 
-    <div className="relative h-64 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-800 dark:via-gray-900 dark:to-black">
+    <div className="relative h-64 overflow-hidden bg-linear-to-br from-orange-50 via-white to-orange-100 dark:from-gray-800 dark:via-gray-900 dark:to-black">
 
         {/* Wishlist */}
        <motion.button
